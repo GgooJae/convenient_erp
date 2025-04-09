@@ -1,0 +1,85 @@
+<mvc:View
+    controllerName="convenienterp.controller.Stock_Order"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:table="sap.ui.table"
+    displayBlock="true">
+
+    <Page>
+        <headerContent>
+            <mvc:XMLView viewName="convenienterp.view.common.NavigationBar" />
+        </headerContent>
+
+        <content>
+            <!-- 필터 UI -->
+            <HBox justifyContent="SpaceBetween" alignItems="Center">
+                <!-- 카테고리 필터 -->
+                <HBox>
+                    <Label text="{i18n>filterByCategory}" />
+                    <Select id="categoryFilter" change="onCategoryFilterChange">
+                        <items>
+                            <core:Item key="all" text="{i18n>allCategories}" />
+                            <core:Item key="categoryA" text="{i18n>categoryA}" />
+                            <core:Item key="categoryB" text="{i18n>categoryB}" />
+                        </items>
+                    </Select>
+                </HBox>
+
+                <!-- 가격 필터 -->
+                <HBox>
+                    <Label text="{i18n>filterByPrice}" />
+                    <Input id="priceMinFilter" placeholder="{i18n>minPrice}" liveChange="onPriceFilterChange"  />
+                    <Label text="~"  />
+                    <Input id="priceMaxFilter" placeholder="{i18n>maxPrice}" liveChange="onPriceFilterChange" />
+                </HBox>
+                <!-- 아이템 이름 필터 -->
+                <HBox>
+                    <Label text="{i18n>filterByName}" />
+                    <Input id="nameFilter" placeholder="{i18n>namePlaceholder}" liveChange="onNameFilterChange"/>
+                </HBox>
+            </HBox>
+
+            
+
+            <!-- 테이블 -->
+            <table:Table
+                id="itemsTable"
+                rows="{/zcap_itemsSet}"
+                visibleRowCount="20"
+                selectionMode="Single"
+                enableColumnReordering="true"
+                width="auto"
+                busyIndicatorDelay="1000"
+                busy="{itemsTable>/busy}"
+                rowSelectionChange="onRowSelectionChange"> 
+                <table:columns>
+                    <table:Column>
+                        <Label text="{i18n>itemId}" /> 
+                        <table:template>
+                            <Text text="{ItemId}" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column>
+                        <Label text="{i18n>itemName}" /> 
+                        <table:template>
+                            <Text text="{ItemName}" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column>
+                        <Label text="{i18n>itemCategory}" /> 
+                        <table:template>
+                            <Text text="{ItemCategory}" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column>
+                        <Label text="{i18n>itemPrice}" /> 
+                        <table:template>
+                            <Text text="{ItemPrice}" />
+                        </table:template>
+                    </table:Column>
+                </table:columns>
+            </table:Table>
+        </content>
+    </Page>
+</mvc:View>

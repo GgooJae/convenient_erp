@@ -1,0 +1,158 @@
+<mvc:View xmlns:internal="sap.landvisz.internal" controllerName="convenienterp.controller.Launchpad"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m">
+    <Page id="page">
+        <headerContent>
+            <mvc:XMLView viewName="convenienterp.view.common.NavigationBar"/>
+        </headerContent>
+        <content>
+        
+        <HBox width="100%">
+                <VBox width="70%" class="sapUiSmallMargin">
+                    <items>
+                        <Title text="재고 관리" class="categoryTitle" />
+                        <HBox>
+                            <items>
+                                <Panel width="250px" backgroundDesign="Transparent">
+                                    <GenericTile
+                                        header="재고주문"
+                                        press="onPressInventoryOrder"
+                                        id="inventoryOrderTile">
+                                    </GenericTile>
+                                </Panel>
+                                <Panel width="250px" backgroundDesign="Transparent">
+                                    <GenericTile
+                                        header="재고 주문 내역"
+                                        press="onPressCheckInventoryOrder"
+                                        id="inventoryOrderHistoryTile">
+                                        <TileContent>
+                                            <NumericContent
+                                                value="10"
+                                                indicator="Up"
+                                                valueColor="Good" />
+                                        </TileContent>
+                                    </GenericTile>
+                                </Panel>
+                                <Panel width="250px" backgroundDesign="Transparent">
+                                    <GenericTile
+                                        header="재고"
+                                        press="onPressCheckInventoryOrder"
+                                        id="inventoryTile">
+                                        <TileContent>
+                                            <NumericContent
+                                                value="5546"
+                                                indicator="Up"
+                                                valueColor="Good" />
+                                        </TileContent>
+                                    </GenericTile>
+                                </Panel>
+                            </items>
+                        </HBox>
+                        <Title text="입고 및 일정 관리" class="categoryTitle" />
+                        <HBox>
+                            <items>
+                                <Panel width="250px" backgroundDesign="Transparent">
+                                    <GenericTile
+                                        header="입고일정"
+                                        press="onPressSchedule"
+                                        id="scheduleTile">
+                                        <TileContent>
+                                            <NumericContent
+                                                value="10"
+                                                indicator="Up"
+                                                valueColor="Good" />
+                                        </TileContent>
+                                    </GenericTile>
+                                </Panel>
+                                <Panel width="250px" backgroundDesign="Transparent">
+                                    <GenericTile
+                                        header="유통기한"
+                                        press="onPressExpirationDate"
+                                        id="expirationDateTile">
+                                        <TileContent>
+                                            <NumericContent
+                                                value="10"
+                                                indicator="Up"
+                                                valueColor="Good" />
+                                        </TileContent>
+                                    </GenericTile>
+                                </Panel>
+                            </items>
+                        </HBox>
+                        <Title text="판매" class="categoryTitle" />
+                        <HBox>
+                            <items>
+                                <Panel width="250px" backgroundDesign="Transparent">
+                                    <GenericTile
+                                        header="지점별 판매량"
+                                        press="onPressSalesDetail"
+                                        id="salesDetailTile">
+                                        <TileContent>
+                                            <NumericContent
+                                                value="10"
+                                                indicator="Up"
+                                                valueColor="Good" />
+                                        </TileContent>
+                                    </GenericTile>
+                                </Panel>
+                                <Panel width="250px" backgroundDesign="Transparent">
+                                    <GenericTile
+                                        header="프로모션"
+                                        press="onPressPromotion"
+                                        id="promotionTile">
+                                        <TileContent>
+                                            <NumericContent
+                                                value="10"
+                                                indicator="Up"
+                                                valueColor="Good" />
+                                        </TileContent>
+                                    </GenericTile>
+                                </Panel>
+                            </items>
+                        </HBox>
+                        <Title text="재무" class="categoryTitle" />
+                        <HBox>
+                            <items>
+                                <Panel width="250px" backgroundDesign="Transparent">
+                                    <GenericTile
+                                        header="판매 이익"
+                                        press="onPressSalesProfit"
+                                        id="salesProfitTile">
+                                    </GenericTile>
+                                </Panel>
+                                <Panel width="250px" backgroundDesign="Transparent">
+                                    <GenericTile
+                                        header="지출 내역"
+                                        press="onPressExpenditureDetails"
+                                        id="expenditureDetailsTile">
+                                    </GenericTile>
+                                </Panel>
+                            </items>
+                        </HBox>
+                    </items>
+                </VBox>
+                <VBox width="30%" class="sapUiSmallMargin">
+                    <Panel headerText="공지사항" class="announcementPanel">
+                        <content>
+                            <ScrollContainer height="300px" vertical="true" class="announcementScroll">
+                                <VBox class="announcementList">
+                                    <Text text="공지사항 1: 새로운 기능 업데이트!" class="announcementText"/>
+                                    <Text text="공지사항 2: 시스템 점검 안내" class="announcementText"/>
+                                    <Text text="공지사항 3: 프로모션 이벤트" class="announcementText"/>
+                                    <Text text="공지사항 4: 추가 공지사항 내용" class="announcementText"/>
+                                    <Text text="공지사항 5: 추가 공지사항 내용" class="announcementText"/>
+                                    <Text text="공지사항 6: 추가 공지사항 내용" class="announcementText"/>
+                                    <Text text="공지사항 7: 추가 공지사항 내용" class="announcementText"/>
+                                    <Text text="공지사항 8: 추가 공지사항 내용" class="announcementText"/>
+                                    <Text text="공지사항 9: 추가 공지사항 내용" class="announcementText"/>
+                                    <Text text="공지사항 10: 추가 공지사항 내용" class="announcementText"/>
+                                    
+                                </VBox>
+                            </ScrollContainer>
+                        </content>
+                    </Panel>
+                </VBox>
+            </HBox>
+        </content>
+    </Page>
+</mvc:View>
