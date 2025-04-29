@@ -20,7 +20,7 @@ sap.ui.define([
 
             // 필터 생성
             const aFilters = [
-                new sap.ui.model.Filter("UserId", sap.ui.model.FilterOperator.EQ, sUsername.toUpperCase()) // UserId는 엔티티 속성과 일치
+                new sap.ui.model.Filter("User_Id", sap.ui.model.FilterOperator.EQ, sUsername.toUpperCase()) // UserId는 엔티티 속성과 일치
             ];
 
             // OData 요청
@@ -32,7 +32,7 @@ sap.ui.define([
                         MessageToast.show(sUsername + "는 존재하지 않는 아이디입니다.");
                     } else {
                         const oUser = oData.results[0];
-                        if (oUser.UserPassword === sPassword.toUpperCase()) { // UserPassword는 엔티티 속성과 일치
+                        if (oUser.User_Password === sPassword.toUpperCase()) { // UserPassword는 엔티티 속성과 일치
                             // 로그인 성공
                             MessageToast.show("로그인 성공!");
                             const oRouter = this.getOwnerComponent().getRouter();
@@ -70,16 +70,16 @@ sap.ui.define([
             }
 
             // 비밀번호 암호화 (SHA-256)
-            const sHashedPassword = await this._hashPassword(sUserPassword);
+            // const sHashedPassword = await this._hashPassword(sUserPassword);
 
             // OData 모델 가져오기
             const oModel = this.getOwnerComponent().getModel();
 
             // 데이터베이스에 저장
             const oNewUser = {
-                UserNum: sUserNum,
-                UserId: sUserId,
-                UserPassword: sHashedPassword
+                USER_NUM: sUserNum, // USER_NUM으로 수정
+                USER_ID: sUserId,   // USER_ID로 수정
+                USER_PASSWORD: sUserPassword // USER_PASSWORD로 수정
             };
             console.log("전송될 데이터:", oNewUser);
             oModel.create("/zcap_userSet", oNewUser, {
@@ -94,14 +94,14 @@ sap.ui.define([
             });
         },
 
-        _hashPassword: async function (password) {
-            // SHA-256 해시 생성
-            const encoder = new TextEncoder();
-            const data = encoder.encode(password);
-            const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            const hashHex = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
-            return hashHex;
-        }
+        // _hashPassword: async function (password) {
+        //     // SHA-256 해시 생성
+        //     const encoder = new TextEncoder();
+        //     const data = encoder.encode(password);
+        //     const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+        //     const hashArray = Array.from(new Uint8Array(hashBuffer));
+        //     const hashHex = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+        //     return hashHex;
+        // }
     });
 });
