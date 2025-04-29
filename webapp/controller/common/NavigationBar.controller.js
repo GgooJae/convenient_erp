@@ -3,55 +3,85 @@ sap.ui.define([
     "sap/m/Popover",
     "sap/m/List",
     "sap/m/StandardListItem",
-    "sap/m/Input"
-], function (Controller, Popover, List, StandardListItem, Input) {
+    "sap/m/Input",
+    "sap/m/MessageToast"
+], function (Controller, Popover, List, StandardListItem, Input, MessageToast) {
     "use strict";
 
     return Controller.extend("convenienterp.controller.common.NavigationBar", {
         onHomeIconPress: function () {
+            // ✅ 홈으로 가기 전에 이전 강조 제거
+            setTimeout(() => {
+                const highlighted = document.querySelectorAll(".blinkingHighlight");
+                highlighted.forEach(el => el.classList.remove("blinkingHighlight"));
+            }, 0);
+            
             var oRouter = this.getOwnerComponent().getRouter();
             oRouter.navTo("RouteLaunchpad");
         },
 
-        onSearchIconPress: function (oEvent) {
-            var oButton = oEvent.getSource();
-            var oView = this.getView();
+        onInit: function () {
+            // 깜빡임 애니메이션용 스타일을 한 번만 추가
+            if (!document.getElementById("highlight-style")) {
+                var style = document.createElement('style');
+                style.id = "highlight-style";
+                style.innerHTML = `
+                    @keyframes blinkHighlight {
+                        0% { background-color: gray; }
+                        50% { background-color: transparent; }
+                        100% { background-color: gray; }
+                    }
 
-            if (!this._oSearchPopover) {
-                this._oSearchPopover = new Popover({
-                    title: "검색",
-                    placement: "Bottom",
-                    content: [
-                        new Input({
-                            placeholder: "검색어를 입력하세요",
-                            liveChange: this.onSearchLiveChange.bind(this)
-                        })
-                    ]
-                });
-                oView.addDependent(this._oSearchPopover);
+                    .blinkingHighlight {
+                        animation: blinkHighlight 1s ease-in-out 3;
+                        border-radius: 10px;
+                        transition: background-color 0.3s ease-in-out;
+                    }
+                `;
+                document.head.appendChild(style);
             }
-            this._oSearchPopover.openBy(oButton);
         },
 
-        onSearchLiveChange: function (oEvent) {
-            var sSearchValue = oEvent.getParameter("value");
-            var oLaunchpadView = this.getView().getParent().getParent(); // Launchpad View 가져오기
-            var aTiles = oLaunchpadView.getContent()[0].getItems()[0].getItems(); // 타일 목록 가져오기
+        // ✅ 검색창에서 Enter로 검색
+        onSearchSubmitEnter: function (oEvent) {
+            var sValue = oEvent.getParameter("value");
+            this._searchAndScroll(sValue);
+        },
 
-            aTiles.forEach(function (oPanel) {
-                var oTile = oPanel.getContent()[0];
-                if (oTile.getHeader().includes(sSearchValue) && sSearchValue !== "") {
-                    // 타일이 보이도록 스크롤
-                    oTile.getDomRef().scrollIntoView({
-                        behavior: "smooth",
-                        block: "start",
-                        inline: "nearest"
-                    });
+        // ✅ 검색 아이콘 클릭 시 검색
+        onSearchSubmitButton: function () {
+            var sValue = this.byId("searchField").getValue();
+            this._searchAndScroll(sValue);
+        },
+
+        // ✅ 공통 검색 로직
+        _searchAndScroll: function (sSearchValue) {
+            sSearchValue = sSearchValue.trim().toLowerCase();
+            if (!sSearchValue) return;
+
+            var oLaunchpadView = this.getView().getParent().getParent();
+            var oMainVBox = oLaunchpadView.$().find(".sapUiSmallMargin")[0];
+            var matchingElement = null;
+
+            oMainVBox.querySelectorAll(".sapMGenericTile, .sapMGT, div").forEach(function (el) {
+                if (el.textContent && el.textContent.toLowerCase().includes(sSearchValue)) {
+                    matchingElement = el;
                 }
             });
-            if (sSearchValue !== "") {
-                this._oSearchPopover.close();
+
+            if (matchingElement) {
+                matchingElement.scrollIntoView({ behavior: "smooth", block: "center" });
+
+                matchingElement.classList.remove("blinkingHighlight");
+                void matchingElement.offsetWidth;
+                matchingElement.classList.add("blinkingHighlight");
+            } else {
+                MessageToast.show("검색 결과가 없습니다.");
             }
+
+            // 검색어 초기화
+            var oInput = this.byId("searchField");
+            if (oInput) oInput.setValue("");
         },
 
         onBellIconPress: function (oEvent) {
@@ -91,7 +121,11 @@ sap.ui.define([
                         items: [
                             new StandardListItem({ title: "정보" }),
                             new StandardListItem({ title: "설정" }),
-                            new StandardListItem({ title: "로그아웃" })
+                            new StandardListItem({
+                                title: "로그아웃",
+                                type: "Active", // 클릭 가능하도록 설정
+                                press: this.onLogout.bind(this) // 로그아웃 핸들러 연결
+                            })
                         ]
                     })
                 });
@@ -99,6 +133,15 @@ sap.ui.define([
             }
 
             this._oAccountPopover.openBy(oButton);
+        },
+
+        onLogout: function () {
+            // 로그아웃 처리 로직 (예: 세션 초기화)
+            MessageToast.show("로그아웃되었습니다.");
+
+            // 로그인 화면으로 이동
+            var oRouter = this.getOwnerComponent().getRouter();
+            oRouter.navTo("RouteLogin");
         }
     });
 });

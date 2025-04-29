@@ -88,8 +88,13 @@
       },
       "routes": [
         {
+          "pattern": "",
+          "name": "RouteLogin",
+          "target": "TargetLogin"
+      },
+        {
           "name": "RouteLaunchpad",
-          "pattern": ":?query:",
+          "pattern": "launchpad",
           "target": [
             "TargetLaunchpad"
           ]
@@ -116,7 +121,14 @@
           "clearControlAggregation": false,
           "viewId": "Stock_Order",
           "viewName": "Stock_Order"
-        }
+        },
+        "TargetLogin": {
+        "viewType": "XML",
+        "transition": "slide",
+        "clearControlAggregation": false,
+        "viewId": "Login",
+        "viewName": "Login"
+    }
       }
     },
     "rootView": {

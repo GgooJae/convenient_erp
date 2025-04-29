@@ -7,51 +7,61 @@ sap.ui.define([
     "use strict";
 
     return Controller.extend("convenienterp.controller.Stock_Order", {
-        onCategoryFilterChange: function () {
-            this._applyFilters();
-        },
-
-        onPriceFilterChange: function () {
-            this._applyFilters();
-        },
-
-        onNameFilterChange: function () {
-            this._applyFilters();
-        },
-
-        _applyFilters: function () {
+        onApplyFilter: function () {
             const oTable = this.byId("itemsTable");
             const oBinding = oTable.getBinding("rows");
 
             let aFilters = [];
 
-            // 카테고리 필터
-            const sCategoryKey = this.byId("categoryFilter").getSelectedKey();
-            if (sCategoryKey && sCategoryKey !== "all") {
-                aFilters.push(new Filter("ItemCategory", FilterOperator.EQ, sCategoryKey));
-            }
-
             // 가격 필터
             const sMinPrice = this.byId("priceMinFilter").getValue();
             const sMaxPrice = this.byId("priceMaxFilter").getValue();
-            if (sMinPrice) {
-                aFilters.push(new Filter("ItemPrice", FilterOperator.GE, parseFloat(sMinPrice)));
-            }
-            if (sMaxPrice) {
-                aFilters.push(new Filter("ItemPrice", FilterOperator.LE, parseFloat(sMaxPrice)));
-            }
+            let sName = this.byId("nameFilter").getValue().padEnd(20, " "); // 이름 필터
 
-            // 아이템 이름 필터
-            const sName = this.byId("nameFilter").getValue();
+            if (sMinPrice) {
+                aFilters.push(new Filter("ItemPrice", FilterOperator.GE, parseFloat(sMinPrice))); // 필드 이름 수정
+            }
+            if (sMaxPrice) {    
+                aFilters.push(new Filter("ItemPrice", FilterOperator.LE, parseFloat(sMaxPrice))); // 필드 이름 수정
+            }
+            
             if (sName) {
-                aFilters.push(new Filter("ItemName", FilterOperator.Contains, sName));
+                sName = sName.padEnd(20, " "); // 20글자가 되도록 뒤에 공백 추가
+                aFilters.push(new Filter("ItemName", FilterOperator.Contains, sName)); // 필드 이름 수정
             }
 
             // 필터 적용
             oBinding.filter(aFilters);
 
-            // 필터 적용 결과 메시지
-            MessageToast.show("필터가 적용되었습니다.");
+            // aFilters 내용을 요약하여 표시
+            const filterSummary = aFilters.map(filter => `${filter.sPath} ${filter.sOperator} ${filter.oValue1}`).join(", ");
+            console.log("Filters applied:", aFilters);
+            MessageToast.show("Filters applied: " + filterSummary);
+        },
+        onInit: function () {
+            const oModel = this.getOwnerComponent().getModel(); // OData 모델 가져오기
+        
+            // 카테고리 데이터 가져오기
+            oModel.read("/zcap_itemsSet", {
+                urlParameters: {
+                    "$select": "ItemCategory",
+                    "$top": "0", // 데이터는 가져오지 않고 메타데이터만 가져옴
+                    "$apply": "groupby((ItemCategory))" // 중복 제거
+                },
+                success: (oData) => {
+                    const aCategories = oData.results.map((item) => ({
+                        CategoryKey: item.ItemCategory,
+                        CategoryName: item.ItemCategory
+                    }));
+        
+                    // 카테고리 모델 설정
+                    const oCategoryModel = new sap.ui.model.json.JSONModel({ CategorySet: aCategories });
+                    this.getView().setModel(oCategoryModel, "categories");
+                },
+                error: (oError) => {
+                    console.error("Failed to fetch categories", oError);
+                }
+            });
         }
     });
 });

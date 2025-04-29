@@ -1,0 +1,35 @@
+<mvc:View
+    controllerName="convenienterp.controller.Login"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    displayBlock="true">
+
+    <Page showHeader="false" class="loginPage">
+        <content>
+            <VBox class="loginBox">
+                <Title text="로그인" level="H1" class="loginTitle" />
+                <Input id="username" placeholder="사용자 이름" width="100%" />
+                <Input id="password" placeholder="비밀번호" type="Password" width="100%" />
+                <Button text="로그인" press="onLogin" width="100%" type="Emphasized" />
+                <Button text="회원가입" press="onOpenRegisterDialog" width="100%" type="Transparent" />
+            </VBox>
+        </content>
+    </Page>
+
+    <!-- 회원가입 Dialog -->
+    <Dialog id="registerDialog" title="회원가입">
+        <content>
+            <VBox>
+                <Input id="registerUserNum" placeholder="회원 번호" width="100%" />
+                <Input id="registerUserId" placeholder="아이디" width="100%" />
+                <Input id="registerUserPassword" placeholder="비밀번호" type="Password" width="100%" />
+            </VBox>
+        </content>
+        <beginButton>
+            <Button text="등록" press="onRegister" />
+        </beginButton>
+        <endButton>
+            <Button text="취소" press="onCloseRegisterDialog" />
+        </endButton>
+    </Dialog>
+</mvc:View>

@@ -5,12 +5,26 @@
     controllerName="convenienterp.controller.common.NavigationBar">
     <Bar>
         <contentLeft>
-            <core:Icon src="sap-icon://home" size="25px" press="onHomeIconPress"/>
+            <core:Icon src="sap-icon://home" size="25px" press="onHomeIconPress" />
         </contentLeft>
         <contentRight>
-            <core:Icon src="sap-icon://search" size="25px" class="myIconMargin" press="onSearchIconPress"/>
-            <core:Icon src="sap-icon://bell" size="25px" class="myIconMargin" press="onBellIconPress"/>
-            <core:Icon src="sap-icon://account" size="25px" class="myIconMargin" press="onAccountIconPress"/>
+            <!-- ✅ 고정 검색창 & 버튼 -->
+            <Input
+                id="searchField"
+                width="300px"
+                placeholder="검색어를 입력하세요"
+                submit="onSearchSubmitEnter"
+                class="roundedInput"
+            />
+            <core:Icon
+                src="sap-icon://search"
+                size="25px"
+                class="myIconMargin"
+                press="onSearchSubmitButton"
+            />
+            <!-- 기존 아이콘들 -->
+            <core:Icon src="sap-icon://bell" size="25px" class="myIconMargin" press="onBellIconPress" />
+            <core:Icon src="sap-icon://account" size="25px" class="myIconMargin" press="onAccountIconPress" />
         </contentRight>
     </Bar>
 </mvc:View>

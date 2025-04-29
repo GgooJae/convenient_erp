@@ -8,39 +8,32 @@
 
     <Page>
         <headerContent>
-            <mvc:XMLView viewName="convenienterp.view.common.NavigationBar" />
+            <mvc:XMLView viewName="convenienterp.view.common.NavigationBar"/>
         </headerContent>
-
         <content>
             <!-- 필터 UI -->
-            <HBox justifyContent="SpaceBetween" alignItems="Center">
-                <!-- 카테고리 필터 -->
-                <HBox>
-                    <Label text="{i18n>filterByCategory}" />
-                    <Select id="categoryFilter" change="onCategoryFilterChange">
-                        <items>
-                            <core:Item key="all" text="{i18n>allCategories}" />
-                            <core:Item key="categoryA" text="{i18n>categoryA}" />
-                            <core:Item key="categoryB" text="{i18n>categoryB}" />
-                        </items>
-                    </Select>
-                </HBox>
+            <VBox>
+                <HBox justifyContent="Start" alignItems="Center" class="filterBar">
+                    <!-- 가격 필터 -->
+                    <Label text="가격" class ="Labelf"/>
+                    <Input id="priceMinFilter" placeholder="최소 가격" width="100px" />
+                    <Label text="~" />
+                    <Input id="priceMaxFilter" placeholder="최대 가격" width="100px" />
 
-                <!-- 가격 필터 -->
-                <HBox>
-                    <Label text="{i18n>filterByPrice}" />
-                    <Input id="priceMinFilter" placeholder="{i18n>minPrice}" liveChange="onPriceFilterChange"  />
-                    <Label text="~"  />
-                    <Input id="priceMaxFilter" placeholder="{i18n>maxPrice}" liveChange="onPriceFilterChange" />
-                </HBox>
-                <!-- 아이템 이름 필터 -->
-                <HBox>
-                    <Label text="{i18n>filterByName}" />
-                    <Input id="nameFilter" placeholder="{i18n>namePlaceholder}" liveChange="onNameFilterChange"/>
-                </HBox>
-            </HBox>
+                    <!-- 아이템 이름 필터 -->
+                    <Label text="이름" class ="Label"/>
+                    <Input id="nameFilter" placeholder="아이템 이름 입력" width="150px" />
+                    
+                    <!-- 카테고리 필터 -->
+                    <Label text="카테고리" class ="Label"/>
+                    <ComboBox id="categoryFilter" width="200px" placeholder="카테고리 선택" items="{categories>/CategorySet}">
+                        <core:Item key="{categories>CategoryKey}" text="{categories>CategoryName}" />
+                    </ComboBox>
 
-            
+                    <!-- 필터 적용 버튼 -->
+                    <Button text="필터 적용" press="onApplyFilter" class="filterButton" />
+                </HBox>
+            </VBox>
 
             <!-- 테이블 -->
             <table:Table
@@ -49,31 +42,28 @@
                 visibleRowCount="20"
                 selectionMode="Single"
                 enableColumnReordering="true"
-                width="auto"
-                busyIndicatorDelay="1000"
-                busy="{itemsTable>/busy}"
-                rowSelectionChange="onRowSelectionChange"> 
+                width="auto">
                 <table:columns>
                     <table:Column>
-                        <Label text="{i18n>itemId}" /> 
+                        <Label text="ID" />
                         <table:template>
                             <Text text="{ItemId}" />
                         </table:template>
                     </table:Column>
                     <table:Column>
-                        <Label text="{i18n>itemName}" /> 
+                        <Label text="이름" />
                         <table:template>
                             <Text text="{ItemName}" />
                         </table:template>
                     </table:Column>
                     <table:Column>
-                        <Label text="{i18n>itemCategory}" /> 
+                        <Label text="카테고리" />
                         <table:template>
                             <Text text="{ItemCategory}" />
                         </table:template>
                     </table:Column>
                     <table:Column>
-                        <Label text="{i18n>itemPrice}" /> 
+                        <Label text="가격" />
                         <table:template>
                             <Text text="{ItemPrice}" />
                         </table:template>
