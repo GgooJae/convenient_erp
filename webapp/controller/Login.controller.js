@@ -35,6 +35,12 @@ sap.ui.define([
                         if (oUser.User_Password === sPassword.toUpperCase()) { // UserPassword는 엔티티 속성과 일치
                             // 로그인 성공
                             MessageToast.show("로그인 성공!");
+
+                            // 로그인 상태 저장
+                            sessionStorage.setItem("isLoggedIn", "true");
+                            sessionStorage.setItem("username", sUsername); // 필요 시 사용자 이름 저장
+
+                            // Launchpad 화면으로 이동
                             const oRouter = this.getOwnerComponent().getRouter();
                             oRouter.navTo("RouteLaunchpad");
                         } else {
@@ -77,12 +83,15 @@ sap.ui.define([
 
             // 데이터베이스에 저장
             const oNewUser = {
-                USER_NUM: sUserNum, // USER_NUM으로 수정
-                USER_ID: sUserId,   // USER_ID로 수정
-                USER_PASSWORD: sUserPassword // USER_PASSWORD로 수정
+                USER_NUM: sUserNum.trim(), // USER_NUM 필드 이름과 길이 확인
+                USER_ID: sUserId.trim(),   // USER_ID 필드 이름과 길이 확인
+                USER_PASSWORD: sUserPassword.trim() // USER_PASSWORD 필드 이름과 길이 확인
             };
             console.log("전송될 데이터:", oNewUser);
             oModel.create("/zcap_userSet", oNewUser, {
+                // headers: {
+                //     "X-CSRF-Token": "토큰값"
+                // },
                 success: () => {
                     MessageToast.show("회원가입이 완료되었습니다.");
                     this.byId("registerDialog").close();

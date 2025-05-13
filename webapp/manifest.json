@@ -93,6 +93,11 @@
           "target": "TargetLogin"
       },
         {
+          "pattern": "",
+          "name": "RouteLogin_2",
+          "target": "TargetLogin_2"
+      },
+        {
           "name": "RouteLaunchpad",
           "pattern": "launchpad",
           "target": [
@@ -128,7 +133,13 @@
         "clearControlAggregation": false,
         "viewId": "Login",
         "viewName": "Login"
-    }
+    },
+      "TargetLogin_2" : {
+        "viewType": "XML",
+        "transition": "show",
+        "clearControlAggregation": false,
+        "viewId": "Login",
+        "viewName": "Login"}
       }
     },
     "rootView": {

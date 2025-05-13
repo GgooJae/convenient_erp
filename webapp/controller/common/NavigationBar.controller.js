@@ -136,12 +136,19 @@ sap.ui.define([
         },
 
         onLogout: function () {
-            // 로그아웃 처리 로직 (예: 세션 초기화)
+            // 로그아웃 상태로 설정
+            sessionStorage.removeItem("isLoggedIn"); // 로그인 상태 제거
+            sessionStorage.removeItem("username"); // 필요 시 사용자 이름도 제거
+
             MessageToast.show("로그아웃되었습니다.");
 
             // 로그인 화면으로 이동
             var oRouter = this.getOwnerComponent().getRouter();
-            oRouter.navTo("RouteLogin");
+            if (oRouter) {
+                oRouter.navTo("RouteLogin_2");
+            } else {
+                console.error("Router not found. Navigation failed.");
+            }
         }
     });
 });

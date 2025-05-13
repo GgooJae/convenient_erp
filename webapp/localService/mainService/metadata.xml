@@ -18,7 +18,7 @@
                     <PropertyRef Name="USER_NUM"/>
                 </Key>
                 <Property Name="USER_NUM" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="USER_NUM"/>
-                <Property Name="USER_ID" Type="Edm.String" Nullable="false" MaxLength="50" sap:label="USER_ID"/>
+                <Property Name="USER_ID" Type="Edm.String" Nullable="false" MaxLength="20" sap:label="USER_ID"/>
                 <Property Name="USER_PASSWORD" Type="Edm.String" Nullable="false" MaxLength="64" sap:label="USER_PASSWORD"/>
             </EntityType>
             <EntitySet Name="zcap_userSet" EntityType="ZCAP_GW_SRV_02.zcap_user" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
