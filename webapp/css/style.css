@@ -1,77 +1,85 @@
-html, body, #content {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .categoryTitle {
-    font-size: 1.3rem;
-    font-weight: 700;
-  }
-  
-  .myIconMargin {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-  }
-  
-  .announcementPanel {
-    background-color: #f0f8ff; /* 아주 옅은 파란색 배경 */
-    border: 1px solid #e1f5fe; /* 옅은 파란색 테두리 */
-    border-radius: 1.5rem;
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    margin: 1rem auto;
-    width: 80%;
-    max-width: 600px;
-  }
-  
-  .announcementPanel {
-    background-color: #e1f5fe; /* 옅은 파란색 헤더 배경 */
-    border-bottom: 1px solid #b3e5fc; /* 약간 어두운 옅은 파란색 테두리 */
-    padding: 0.75rem 1rem;
-  }
-  
-  .announcementPanel  {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #42a5f5; /* 약간 진한 파란색 제목 */
-    text-align: center;
-  }
-  
-  .announcementScroll {
-    background-color: transparent;
-    max-height: 300px;
-    overflow-y: auto;
-  }
-  
-  .announcementList {
-    padding: 1rem;
-    border-left: 1px solid #e1f5fe; /* 왼쪽 세로 테두리 추가 */
-    border-right: 1px solid #e1f5fe; /* 오른쪽 세로 테두리 추가 */
-  }
-  
-  .announcementText {
-    font-size: 1rem;
-    color: #333; /* 검정색 텍스트 */
-    margin-bottom: 0.75rem;
-    line-height: 1.5;
-  }
+html,
+body,
+#content {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 
-  .filterBar {
-    margin-top: 30px; /* 네비게이션 바와 검색창 사이 여백 */
-    margin-bottom: 30px; /* 검색창과 리스트 사이 여백 */
+.categoryTitle {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.myIconMargin {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.announcementPanel {
+  background-color: #f0f8ff;
+  /* 아주 옅은 파란색 배경 */
+  border: 1px solid #e1f5fe;
+  /* 옅은 파란색 테두리 */
+  border-radius: 1.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  margin: 1rem auto;
+  width: 80%;
+  max-width: 600px;
+}
+
+.announcementPanel {
+  background-color: #e1f5fe;
+  /* 옅은 파란색 헤더 배경 */
+  border-bottom: 1px solid #b3e5fc;
+  /* 약간 어두운 옅은 파란색 테두리 */
+  padding: 0.75rem 1rem;
+}
+
+
+.announcementScroll {
+  background-color: transparent;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.announcementList {
+  padding: 1rem;
+  border-left: 1px solid #e1f5fe;
+  /* 왼쪽 세로 테두리 추가 */
+  border-right: 1px solid #e1f5fe;
+  /* 오른쪽 세로 테두리 추가 */
+}
+
+.announcementText {
+  font-size: 1rem;
+  color: #333;
+  /* 검정색 텍스트 */
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+.filterBar {
+  margin-top: 30px;
+  /* 네비게이션 바와 검색창 사이 여백 */
+  margin-bottom: 30px;
+  /* 검색창과 리스트 사이 여백 */
 }
 
 .tableSpacing {
-    margin-top: 20px; /* 검색창과 테이블 사이 여백 */
+  margin-top: 20px;
+  /* 검색창과 테이블 사이 여백 */
 }
 
 .Label {
-  margin-right: 10px !important; /* 라벨 오른쪽에 간격 추가 */
+  margin-right: 10px !important;
+  /* 라벨 오른쪽에 간격 추가 */
   margin-left: 35px
 }
 
 .Labelf {
-  margin-right: 10px; /* 첫 번째 라벨 왼쪽 간격 제거 */
+  margin-right: 10px;
+  /* 첫 번째 라벨 왼쪽 간격 제거 */
   margin-left: 10px
 }
 
@@ -89,29 +97,37 @@ html, body, #content {
 
 .loginPage {
   display: flex;
-  justify-content: center; /* 가로 중앙 정렬 */
-  align-items: center; /* 세로 중앙 정렬 */
-  height: 100vh; /* 화면 전체 높이 */
-  background-color: #f5f5f5; /* 부드러운 배경색 */
+  justify-content: center;
+  /* 가로 중앙 정렬 */
+  align-items: center;
+  /* 세로 중앙 정렬 */
+  height: 100vh;
+  /* 화면 전체 높이 */
+  background-color: #f5f5f5;
+  /* 부드러운 배경색 */
 }
 
 .loginBox {
   width: 400px;
   padding: 30px;
   border-radius: 10px;
-  background-color: white; /* 박스 배경색 */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+  background-color: white;
+  /* 박스 배경색 */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  /* 부드러운 그림자 */
   text-align: center;
   margin: auto;
   margin-top: 350px;
 }
 
 .loginBox .sapMInputBase {
-  margin-bottom: 20px; /* 입력 필드 간 간격 */
+  margin-bottom: 20px;
+  /* 입력 필드 간 간격 */
 }
 
 .loginBox .sapMBtn {
-  margin-top: 10px; /* 버튼 위 간격 */
+  margin-top: 10px;
+  /* 버튼 위 간격 */
 }
 
 .loginTitle {
@@ -119,4 +135,22 @@ html, body, #content {
   font-weight: bold;
   color: #333;
   margin-bottom: 20px;
+}
+
+.customAnnouncementPanel .sapMPanelHdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #42a5f5;
+  /* 약간 진한 파란색 제목 */
+  text-align: center;
+}
+
+.customAnnouncementPanel .sapMPanelExpandableIcon {
+  order: 2;
+  /* 버튼을 오른쪽 끝으로 이동 */
+  margin-left: auto;
+  /* 텍스트와 버튼 사이 간격 확보 */
 }

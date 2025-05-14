@@ -132,23 +132,31 @@
                     </items>
                 </VBox>
                 <VBox width="30%" class="sapUiSmallMargin">
-                    <Panel headerText="공지사항" class="announcementPanel">
+                    <Panel 
+                        id="announcementPanel"
+                        headerText="공지사항" 
+                        expandable="true" 
+                        expanded="false"
+                        class="customAnnouncementPanel">
                         <content>
-                            <ScrollContainer height="300px" vertical="true" class="announcementScroll">
-                                <VBox class="announcementList">
-                                    <Text text="공지사항 1: 새로운 기능 업데이트!" class="announcementText"/>
-                                    <Text text="공지사항 2: 시스템 점검 안내" class="announcementText"/>
-                                    <Text text="공지사항 3: 프로모션 이벤트" class="announcementText"/>
-                                    <Text text="공지사항 4: 추가 공지사항 내용" class="announcementText"/>
-                                    <Text text="공지사항 5: 추가 공지사항 내용" class="announcementText"/>
-                                    <Text text="공지사항 6: 추가 공지사항 내용" class="announcementText"/>
-                                    <Text text="공지사항 7: 추가 공지사항 내용" class="announcementText"/>
-                                    <Text text="공지사항 8: 추가 공지사항 내용" class="announcementText"/>
-                                    <Text text="공지사항 9: 추가 공지사항 내용" class="announcementText"/>
-                                    <Text text="공지사항 10: 추가 공지사항 내용" class="announcementText"/>
-                                    
+                            <Carousel id="announcementCarousel" height="300px" loop="false" class="announcementCarousel">
+                                <!-- 첫 번째 페이지 -->
+                                <VBox class="announcementPage">
+                                    <Text text="공지사항 1" class="announcementText"/>
+                                    <Text text="공지사항 2" class="announcementText"/>
+                                    <Text text="공지사항 3" class="announcementText"/>
+                                    <Text text="공지사항 4" class="announcementText"/>
+                                    <Text text="공지사항 5" class="announcementText"/>
+                                    <Text text="공지사항 6" class="announcementText"/>
+                                    <Text text="공지사항 7" class="announcementText"/>
                                 </VBox>
-                            </ScrollContainer>
+                                <!-- 두 번째 페이지 -->
+                                <VBox class="announcementPage">
+                                    <Text text="공지사항 8" class="announcementText"/>
+                                    <Text text="공지사항 9" class="announcementText"/>
+                                    <Text text="공지사항 10" class="announcementText"/>
+                                </VBox>
+                            </Carousel>
                         </content>
                     </Panel>
                 </VBox>
