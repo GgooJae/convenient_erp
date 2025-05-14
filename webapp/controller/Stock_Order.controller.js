@@ -37,31 +37,6 @@ sap.ui.define([
             const filterSummary = aFilters.map(filter => `${filter.sPath} ${filter.sOperator} ${filter.oValue1}`).join(", ");
             console.log("Filters applied:", aFilters);
             MessageToast.show("Filters applied: " + filterSummary);
-        },
-        onInit: function () {
-            const oModel = this.getOwnerComponent().getModel(); // OData 모델 가져오기
-        
-            // 카테고리 데이터 가져오기
-            oModel.read("/zcap_itemsSet", {
-                urlParameters: {
-                    "$select": "ItemCategory",
-                    "$top": "0", // 데이터는 가져오지 않고 메타데이터만 가져옴
-                    "$apply": "groupby((ItemCategory))" // 중복 제거
-                },
-                success: (oData) => {
-                    const aCategories = oData.results.map((item) => ({
-                        CategoryKey: item.ItemCategory,
-                        CategoryName: item.ItemCategory
-                    }));
-        
-                    // 카테고리 모델 설정
-                    const oCategoryModel = new sap.ui.model.json.JSONModel({ CategorySet: aCategories });
-                    this.getView().setModel(oCategoryModel, "categories");
-                },
-                error: (oError) => {
-                    console.error("Failed to fetch categories", oError);
-                }
-            });
         }
     });
 });
