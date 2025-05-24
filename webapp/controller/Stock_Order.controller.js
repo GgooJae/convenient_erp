@@ -110,12 +110,19 @@ sap.ui.define([
             // OData 모델 가져오기
             const oModel = this.getOwnerComponent().getModel();
 
+            const today = new Date();
+            const yyyy = today.getFullYear().toString();
+            const mm = (today.getMonth() + 1).toString().padStart(2, '0');
+            const dd = today.getDate().toString().padStart(2, '0');
+            // Edm.DateTime에 맞는 ISO 8601 형식
+            const orderDate = `${yyyy}-${mm}-${dd}T00:00:00`;
+
             // DB에 저장할 데이터 (CamelCase로 맞춤)
             const oOrder = {
                 OrderItemId: oData.ItemId,
                 OrderItemName: oData.ItemName,
                 OrderItemQuan: qty,
-                OrderDate: new Date().toISOString().slice(0,10).replace(/-/g,""),
+                OrderDate: orderDate,
                 OrderOwner: sOwner
             };
 
@@ -125,7 +132,14 @@ sap.ui.define([
                     this.byId("orderDialog").close();
                 },
                 error: (oError) => {
-                    MessageToast.show("발주 실패");
+                    const msg =
+                        `발주 실패\n` +
+                        `품목ID: ${oOrder.OrderItemId}\n` +
+                        `품목명: ${oOrder.OrderItemName}\n` +
+                        `수량: ${oOrder.OrderItemQuan}\n` +
+                        `날짜: ${oOrder.OrderDate}\n` +
+                        `발주자: ${oOrder.OrderOwner}`;
+                    MessageToast.show(msg, { duration: 4000 });
                 }
             });
         },
@@ -188,7 +202,12 @@ sap.ui.define([
             const aItems = this.getView().getModel().getProperty("/multiOrderItems");
             const sOwner = sessionStorage.getItem("username");
             const oModel = this.getOwnerComponent().getModel();
-            const sDate = new Date().toISOString().slice(0,10).replace(/-/g,"");
+            const today = new Date();
+            const yyyy = today.getFullYear().toString();
+            const mm = (today.getMonth() + 1).toString().padStart(2, '0');
+            const dd = today.getDate().toString().padStart(2, '0');
+            // Edm.DateTime에 맞는 ISO 8601 형식
+            const sDate = `${yyyy}-${mm}-${dd}T00:00:00`;
 
             let successCount = 0;
             let failCount = 0;
