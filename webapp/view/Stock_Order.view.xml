@@ -33,6 +33,8 @@
                     <!-- 필터 적용 버튼 -->
                     <Button text="필터 적용" press="onApplyFilter" class="filterButton" />
                 </HBox>
+                <!-- 다품목 발주 버튼을 아래로 이동 -->
+                <Button text="다품목 발주" press="onApplyOrder" class="orderButton"/>
             </VBox>
 
             <!-- 테이블 -->
@@ -40,7 +42,7 @@
                 id="itemsTable"
                 rows="{/zcap_itemsSet}"
                 visibleRowCount="20"
-                selectionMode="Single"
+                selectionMode="MultiToggle"
                 enableColumnReordering="true"
                 width="auto">
                 <table:columns>
@@ -68,8 +70,73 @@
                             <Text text="{ItemPrice}" />
                         </table:template>
                     </table:Column>
+                    <table:Column>
+                        <Label text="발주 수량" />
+                        <table:template>
+                            <Input value="1" type="Number" width="60px"/>
+                        </table:template>
+                    </table:Column>
+                    <table:Column>
+                        <Label text="발주" />
+                        <table:template>
+                            <Button text="단품목 발주" press="onOrderPress" type="Emphasized"/>
+                        </table:template>
+                    </table:Column>
                 </table:columns>
             </table:Table>
+
+            <!-- 단품목 발주 Dialog -->
+            <Dialog id="orderDialog" title="단품목 발주 확인" draggable="true" resizable="true" class="orderDialogCustom">
+                <VBox class="orderDialogVBox">
+                    <HBox alignItems="Center" class="orderDialogRow">
+                        <Label text="품목명" class="orderDialogLabel"/>
+                        <Text id="orderItemName" class="orderDialogValue"/>
+                    </HBox>
+                    <HBox alignItems="Center" class="orderDialogRow">
+                        <Label text="수량" class="orderDialogLabel"/>
+                        <Input id="orderQuantity" type="Number" value="1" liveChange="onOrderQuantityChange" width="80px" class="orderDialogInput"/>
+                    </HBox>
+                    <HBox alignItems="Center" class="orderDialogRow">
+                        <Label text="총 가격" class="orderDialogLabel"/>
+                        <Text id="orderTotalPrice" class="orderDialogValue" />
+                    </HBox>
+                </VBox>
+                <beginButton>
+                    <Button text="확인" press="onOrderConfirm" type="Accept"/>
+                </beginButton>
+                <endButton>
+                    <Button text="취소" press="onOrderCancel" type="Reject"/>
+                </endButton>
+            </Dialog>
+
+            <!-- 다품목 발주 Dialog -->
+            <Dialog id="multiOrderDialog" title="다품목 발주" draggable="true" resizable="true" class="orderDialogCustom" contentWidth="500px" contentHeight="400px">
+                <VBox class="orderDialogVBox">
+                    <List id="multiOrderList" items="{/multiOrderItems}">
+                        <CustomListItem>
+                            <HBox alignItems="Center" class="orderDialogRow">
+                                <Label text="{ItemName}" class="orderDialogLabel" width="120px"/>
+                                <Input value="{OrderQuantity}" type="Number" width="70px" class="orderDialogInput"
+                                    liveChange="onMultiOrderQuantityChange"/>
+                                <Text text=" x " />
+                                <Text text="{ItemPrice}" class="orderDialogValue" width="60px"/>
+                                <Text text=" = " />
+                                <Text text="{= ${OrderQuantity} * ${ItemPrice} }" class="orderDialogValue" width="80px"/>
+                            </HBox>
+                        </CustomListItem>
+                    </List>
+                </VBox>
+                <HBox justifyContent="End">
+                    <Label text="총 합계" class="orderDialogLabel" width="120px"/>
+                    <Text id="multiOrderTotalPrice" class="orderDialogValue" width="120px"/>
+                </HBox>
+                <beginButton>
+                    <Button text="확인" press="onMultiOrderConfirm" type="Accept"/>
+                </beginButton>
+                <endButton>
+                    <Button text="취소" press="onMultiOrderCancel" type="Reject"/>
+                </endButton>
+            </Dialog>
         </content>
     </Page>
 </mvc:View>

@@ -84,9 +84,15 @@ body,
 }
 
 .filterButton {
-  margin-left: 400px;
+  margin-left: 300px;
+  margin-top: -5px;
 }
-
+.orderButton {
+  margin-left: 1080px;
+  margin-bottom: 15px;
+  margin-top: -25px;
+  /* 버튼 간격 */
+}
 .sapUiContentPadding {
   display: flex;
   justify-content: center;
@@ -153,4 +159,42 @@ body,
   /* 버튼을 오른쪽 끝으로 이동 */
   margin-left: auto;
   /* 텍스트와 버튼 사이 간격 확보 */
+}
+
+.orderDialogCustom .sapMDialogSection {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 24px 32px 16px 32px;
+}
+
+.orderDialogVBox {
+  gap: 18px;
+  margin-bottom: 10px;
+}
+
+.orderDialogRow {
+  margin-bottom: 8px;
+}
+
+.orderDialogLabel {
+  min-width: 70px;
+  font-weight: 600;
+  color: #1976d2;
+  font-size: 1.05rem;
+  margin-right: 16px;
+}
+
+.orderDialogValue {
+  font-size: 1.08rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.orderDialogInput {
+  font-size: 1.08rem;
+  min-width: 80px;
+  max-width: 120px;
+  border-radius: 6px;
+  border: 1px solid #b3c6e0;
+  background: #fff;
 }
