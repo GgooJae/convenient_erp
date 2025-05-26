@@ -110,7 +110,15 @@
           "target": [
             "TargetStock_Order"
           ]
+        },
+        {
+          "name": "RouteStock_Order_History",
+          "pattern": "stockorderhistory",
+          "target": [
+            "TargetStock_Order_History"
+          ]
         }
+        
       ],
       "targets": {
         "TargetLaunchpad": {
@@ -139,7 +147,14 @@
         "transition": "show",
         "clearControlAggregation": false,
         "viewId": "Login",
-        "viewName": "Login"}
+        "viewName": "Login"},
+        "TargetStock_Order_History": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "Stock_Order_History",
+          "viewName": "Stock_Order_History"
+        }
       }
     },
     "rootView": {

@@ -13,10 +13,10 @@ sap.ui.define([
         oRouter.navTo("RouteStock_Order");
       },
 
-      // onPressCheckInventoryOrder: function () {
-      //   var oRouter = this.getOwnerComponent().getRouter();
-      //   oRouter.navTo("Stock_Order_History");
-      // },
+      onPressCheckInventoryOrder: function () {
+        var oRouter = this.getOwnerComponent().getRouter();
+        oRouter.navTo("RouteStock_Order_History");
+      },
 
       // onPressInventory: function () {
       //   var oRouter = this.getOwnerComponent().getRouter();

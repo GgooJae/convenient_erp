@@ -22,6 +22,19 @@
                 <Property Name="USER_PASSWORD" Type="Edm.String" Nullable="false" MaxLength="64" sap:label="USER_PASSWORD"/>
             </EntityType>
             <EntitySet Name="zcap_userSet" EntityType="ZCAP_GW_SRV_02.zcap_user" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+
+            <!-- 추가된 zcap_stock_order 엔티티 -->
+            <EntityType Name="zcap_stock_order" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="OrderItemId"/>
+                </Key>
+                <Property Name="OrderItemId" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="ORDER_ITEM_ID"/>
+                <Property Name="OrderItemName" Type="Edm.String" Nullable="false" MaxLength="50" sap:label="ORDER_ITEM_NAME"/>
+                <Property Name="OrderItemQuan" Type="Edm.Int32" Nullable="false" sap:label="ORDER_ITEM_QUANTITY"/>
+                <Property Name="OrderDate" Type="Edm.DateTime" Nullable="false" sap:label="ORDER_DATE"/>
+                <Property Name="OrderOwner" Type="Edm.String" Nullable="false" MaxLength="20" sap:label="ORDER_OWNER"/>
+            </EntityType>
+            <EntitySet Name="zcap_stock_orderSet" EntityType="ZCAP_GW_SRV_02.zcap_stock_order" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
         </Schema>
     </edmx:DataServices>
 </edmx:Edmx>

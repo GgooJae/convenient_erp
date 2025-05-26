@@ -58,7 +58,10 @@ body,
   margin-bottom: 0.75rem;
   line-height: 1.5;
 }
-
+.comboBox{
+  margin-right: 4px;
+  /* 오른쪽 여백 */
+}
 .filterBar {
   margin-top: 30px;
   /* 네비게이션 바와 검색창 사이 여백 */
@@ -72,9 +75,9 @@ body,
 }
 
 .Label {
-  margin-right: 10px !important;
+  margin-right: 5px !important;
   /* 라벨 오른쪽에 간격 추가 */
-  margin-left: 35px
+  margin-left: 25px
 }
 
 .Labelf {
@@ -87,8 +90,13 @@ body,
   margin-left: 300px;
   margin-top: -5px;
 }
+
+.filterButton2 {
+  margin-left: 30px;
+  margin-top: -5px;
+}
 .orderButton {
-  margin-left: 1080px;
+  margin-left: 1070px;
   margin-bottom: 15px;
   margin-top: -25px;
   /* 버튼 간격 */

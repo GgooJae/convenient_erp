@@ -1,0 +1,120 @@
+<mvc:View
+    controllerName="convenienterp.controller.Stock_Order_History"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:table="sap.ui.table"
+    displayBlock="true">
+
+    <Page>
+        <headerContent>
+            <mvc:XMLView viewName="convenienterp.view.common.NavigationBar"/>
+        </headerContent>
+        <content>
+            <VBox>
+                <HBox justifyContent="Start" alignItems="Center" class="filterBar">
+
+                    <!-- 품목명 필터 -->
+                    <Label text="품목명" class="Labelf"/>
+                    <Input id="orderItemNameFilter" placeholder="품목명 입력" width="150px"/>
+
+                    <!-- 날짜 필터 -->
+                    <Label text="주문 날짜" class="Label"/>
+                    <DateRangeSelection id="orderDateFilter" width="230px" delimiter=" ~ " displayFormat="yyyy-MM-dd" valueFormat="yy-MM-dd"/>
+                    
+                    <!-- 주문자 필터 -->
+                    <Label text="주문자" class="Label"/>
+                    <Input id="orderOwnerFilter" placeholder="주문자 입력" width="150px"/>
+                    
+                    <!-- 수량 필터 -->
+                    <Label text="수량" class="Label"/>
+                    <Input id="quantityMinFilter" placeholder="최소 수량" width="100px"/>
+                    <Label text="~"/>
+                    <Input id="quantityMaxFilter" placeholder="최대 수량" width="100px"/>
+                    
+                    <!-- 상태 필터 -->
+                    <Label text="상태" class="Label"/>
+                    <ComboBox id="orderStatusFilter" width="80px">
+                        <core:Item key="Pending" text="대기" />
+                        <core:Item key="Completed" text="승인" />
+                        <core:Item key="Cancelled" text="완료" />
+                        <core:Item key="Cancelled" text="취소" />
+                    </ComboBox>
+                    
+                    <!-- 필터 적용 버튼 -->
+                    <Button text="필터 적용" press="onApplyFilter" class="filterButton2"/>
+
+                    
+                </HBox>
+            </VBox>
+            <table:Table
+                id="orderHistoryTable"
+                rows="{/zcap_stock_orderSet}"
+                visibleRowCount="15"
+                selectionMode="None"
+                enableColumnReordering="true"
+                width="auto">
+                <table:columns>
+                    <table:Column>
+                        <Label text="주문 ID" />
+                        <table:template>
+                            <Text text="{OrderId}" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column>
+                        <Label text="물품 ID" />
+                        <table:template>
+                            <Text text="{OrderItemId}" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column>
+                        <Label text="품목명" />
+                        <table:template>
+                            <Text text="{OrderItemName}" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column>
+                        <Label text="수량" />
+                        <table:template>
+                            <Text text="{OrderItemQuan}" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="200px">
+                        <Label text="주문 날짜" />
+                        <table:template>
+                            <Text text="{path: 'OrderDate', type: 'sap.ui.model.type.Date', formatOptions: { style: 'full' }}" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column>
+                        <Label text="주문자" />
+                        <table:template>
+                            <Text text="{OrderOwner}" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column>
+                        <Label text="상태" />
+                        <table:template>
+                            <Text text="{OrderStatus}" />
+                        </table:template>
+                    </table:Column>
+                    <table:Column width="90px">
+                        <Label text="취소" />
+                        <table:template>
+                            <Button text="취소" press="onCancelPress" type="Reject" visible="{= ${OrderStatus} === '대기' }" />
+                        </table:template>
+                    </table:Column>
+                </table:columns>
+            </table:Table>
+            <Toolbar>
+                <ToolbarSpacer/>
+                <HBox>
+                    <Button text="1" press="onPageSelect" data-page="1"/>
+                    <Button text="2" press="onPageSelect" data-page="2"/>
+                    <Button text="3" press="onPageSelect" data-page="3"/>
+                    <Button text="4" press="onPageSelect" data-page="4"/>
+                    <Button text="5" press="onPageSelect" data-page="5"/>
+                </HBox>
+            </Toolbar>
+        </content>
+    </Page>
+</mvc:View>
