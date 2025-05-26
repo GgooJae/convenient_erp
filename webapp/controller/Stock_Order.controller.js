@@ -206,14 +206,14 @@ sap.ui.define([
             const yyyy = today.getFullYear().toString();
             const mm = (today.getMonth() + 1).toString().padStart(2, '0');
             const dd = today.getDate().toString().padStart(2, '0');
-            // Edm.DateTime에 맞는 ISO 8601 형식
             const sDate = `${yyyy}-${mm}-${dd}T00:00:00`;
+
+            oModel.setUseBatch(false); // 배치 모드 비활성화
 
             let successCount = 0;
             let failCount = 0;
-            let totalCount = aItems.length;
 
-            aItems.forEach(item => {
+            aItems.forEach((item, index) => {
                 const oOrder = {
                     OrderItemId: item.ItemId,
                     OrderItemName: item.ItemName,
@@ -221,27 +221,32 @@ sap.ui.define([
                     OrderDate: sDate,
                     OrderOwner: sOwner
                 };
+
                 oModel.create("/zcap_stock_orderSet", oOrder, {
                     success: () => {
                         successCount++;
-                        if (successCount + failCount === totalCount) {
-                            if (failCount > 0) {
-                                MessageToast.show(`일부 품목 발주 실패 (${failCount}건), 성공: ${successCount}건`);
-                            } else {
-                                MessageToast.show(`총 ${successCount}개 품목 발주 완료`);
-                            }
-                            this.byId("multiOrderDialog").close();
+                        if (successCount + failCount === aItems.length) {
+                            this._showOrderSummary(successCount, failCount);
                         }
                     },
-                    error: () => {
+                    error: (oError) => {
                         failCount++;
-                        if (successCount + failCount === totalCount) {
-                            MessageToast.show(`발주 실패: ${failCount}건, 성공: ${successCount}건`);
-                            this.byId("multiOrderDialog").close();
+                        console.error(`품목 ${oOrder.OrderItemId} 발주 실패`, oError);
+                        if (successCount + failCount === aItems.length) {
+                            this._showOrderSummary(successCount, failCount);
                         }
                     }
                 });
             });
+        },
+
+        _showOrderSummary: function(successCount, failCount) {
+            if (failCount > 0) {
+                MessageToast.show(`일부 품목 발주 실패 (${failCount}건), 성공: ${successCount}건`);
+            } else {
+                MessageToast.show(`총 ${successCount}개 품목 발주 완료`);
+            }
+            this.byId("multiOrderDialog").close();
         },
 
         // 다품목 발주 취소
