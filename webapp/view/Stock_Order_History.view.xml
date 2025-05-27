@@ -108,11 +108,11 @@
             <Toolbar>
                 <ToolbarSpacer/>
                 <HBox>
-                    <Button text="1" press="onPageSelect" data-page="1"/>
-                    <Button text="2" press="onPageSelect" data-page="2"/>
-                    <Button text="3" press="onPageSelect" data-page="3"/>
-                    <Button text="4" press="onPageSelect" data-page="4"/>
-                    <Button text="5" press="onPageSelect" data-page="5"/>
+                    <Button text="1" press="onPageSelect" />
+                    <Button text="2" press="onPageSelect" />
+                    <Button text="3" press="onPageSelect" />
+                    <Button text="4" press="onPageSelect" />
+                    <Button text="5" press="onPageSelect" />
                 </HBox>
             </Toolbar>
         </content>
