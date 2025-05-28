@@ -85,6 +85,13 @@ sap.ui.define([
         },
 
         onBellIconPress: function (oEvent) {
+            var bellDom = document.querySelector('[id$="bellIcon"]');
+            if (bellDom) {
+                // 이미 active 상태면 원상복구, 아니면 active로
+                if (bellDom.style.boxShadow) {
+                    window.setBellIconState('default');
+                }
+            }
             var oButton = oEvent.getSource();
             var oView = this.getView();
             var oModel = this.getView().getModel();
@@ -227,6 +234,35 @@ sap.ui.define([
             }
         },
         onInit: function () {
+            // 전역에서 bell 상태를 바꿀 수 있도록 window에 함수 등록
+            window.setBellIconState = function(state) {
+                var bellDom = document.querySelector('[id$="bellIcon"]');
+                if (!bellDom) return;
+
+                // 기존 뱃지 제거
+                var badge = bellDom.querySelector('.bell-badge');
+                if (badge) badge.remove();
+
+                if (state === "active") {
+                    // 빨간 점 뱃지 추가
+                    var dot = document.createElement('span');
+                    dot.className = 'bell-badge';
+                    dot.style.position = 'absolute';
+                    dot.style.top = '2px';
+                    dot.style.right = '2px';
+                    dot.style.width = '10px';
+                    dot.style.height = '10px';
+                    dot.style.background = 'red';
+                    dot.style.borderRadius = '50%';
+                    dot.style.boxShadow = '0 0 4px 1px rgba(255,60,60,0.4)';
+                    dot.style.border = '2px solid white';
+                    dot.style.zIndex = '10';
+                    bellDom.style.position = 'relative';
+                    bellDom.appendChild(dot);
+                } else {
+                    bellDom.style.position = '';
+                }
+            };
             // 플로팅 버튼 추가
             if (!document.getElementById("floatingFab")) {
                 var btn = document.createElement("button");

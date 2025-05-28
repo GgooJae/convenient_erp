@@ -23,7 +23,7 @@
                 press="onSearchSubmitButton"
             />
             <!-- 기존 아이콘들 -->
-            <core:Icon src="sap-icon://bell" size="25px" class="myIconMargin" press="onBellIconPress" />
+            <core:Icon src="sap-icon://bell" id="bellIcon" size="25px" class="myIconMargin" press="onBellIconPress" />
             <core:Icon src="sap-icon://account" size="25px" class="myIconMargin" press="onAccountIconPress" />
         </contentRight>
     </Bar>
