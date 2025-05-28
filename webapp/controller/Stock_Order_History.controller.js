@@ -110,7 +110,7 @@ sap.ui.define([
                                 };
                                 oModel.create("/zcap_alarmSet", arlam, {
                                     success: function() {
-                                        if (window.setBellIconState) window.setBellIconState('active');
+                                        window.setBellIconState('active');
                                     },
                                     error: function(e) { console.error("알람 생성 실패", e); }
                                 });

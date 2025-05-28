@@ -137,7 +137,7 @@ sap.ui.define([
                     oModel.create("/zcap_alarmSet", arlam, {
                         success: () => {
                             console.log("알람 생성 완료");
-                            if (window.setBellIconState) window.setBellIconState('active'); // ← 이 줄 추가
+                            window.setBellIconState('active'); // ← 이 줄 추가
                         },
                         error: (oError) => {
                             console.error("알람 생성 실패", oError);
@@ -249,8 +249,7 @@ sap.ui.define([
                         }
                         oModel.create("/zcap_alarmSet", arlam, {
                             success: () => {
-                                console.log("알람 생성 완료");
-                                if (window.setBellIconState) window.setBellIconState('active'); // ← 이 줄 추가
+                                console.log("알람 생성 완료");                                
                             },
                             error: (oError) => {
                                 console.error("알람 생성 실패", oError);
@@ -266,6 +265,7 @@ sap.ui.define([
                         }
                     }
                 });
+                window.setBellIconState('active'); // ← 이 줄 추가
             });
         },
 
