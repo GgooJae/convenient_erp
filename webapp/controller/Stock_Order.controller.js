@@ -79,10 +79,13 @@ sap.ui.define([
             const oContext = oEvent.getSource().getBindingContext();
             const oData = oContext.getObject();
 
+            // 테이블의 해당 행의 OrderQuantity input 값이 모델에 반영되어 있다고 가정
+            // (즉, oData.OrderQuantity가 최신 값)
             // Dialog에 값 세팅
+            const qty = oData.OrderQuantity || 1;
             this.byId("orderItemName").setText(oData.ItemName);
-            this.byId("orderQuantity").setValue(oData.OrderQuantity || 1);
-            this.byId("orderTotalPrice").setText((oData.OrderQuantity || 1) * (oData.ItemPrice || 0));
+            this.byId("orderQuantity").setValue(qty);
+            this.byId("orderTotalPrice").setText(qty * (oData.ItemPrice || 0));
 
             // 현재 품목 데이터 저장
             this._oCurrentOrder = oData;

@@ -71,12 +71,6 @@
                         </table:template>
                     </table:Column>
                     <table:Column>
-                        <Label text="발주 수량" />
-                        <table:template>
-                            <Input value="1" type="Number" width="60px"/>
-                        </table:template>
-                    </table:Column>
-                    <table:Column>
                         <Label text="발주" />
                         <table:template>
                             <Button text="단품목 발주" press="onOrderPress" type="Emphasized"/>

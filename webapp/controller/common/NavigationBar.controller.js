@@ -162,6 +162,7 @@ sap.ui.define([
                             if (this._oBellPopover) {
                                 this._oBellPopover.close();
                             }
+                            if (window.setBellIconState) window.setBellIconState('default');
                         }.bind(this)
                     });
                     var oPageInfo = new sap.m.Text({ text: currentPage + ' / ' + totalPages });
