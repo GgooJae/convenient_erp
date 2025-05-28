@@ -52,9 +52,12 @@ sap.ui.define([
 
             // 필터 적용 로그
             console.log("Filters applied:", aFilters);
-        },       onCancelPress: function (oEvent) {
+        },
+
+       onCancelPress: function (oEvent) {
             const oButton = oEvent.getSource();
             // 버튼이 속한 행의 바인딩 컨텍스트를 가져옵니다.
+            // 이 컨텍스트는 UI에 표시하기 위해 이미 로드된 데이터에 대한 참조입니다.
             const oContext = oButton.getBindingContext();
 
             if (!oContext) {
@@ -63,53 +66,39 @@ sap.ui.define([
             }
 
             // 컨텍스트에서 실제 데이터 객체를 가져옵니다.
+            // 이것은 새로운 서버 요청(GET)을 보내는 것이 아니라,
+            // UI5 모델이 메모리에 가지고 있는 데이터를 가져오는 것입니다.
             const oData = oContext.getObject();
-            
-            // 이미 취소된 주문인지 확인
-            if (oData.OrderStatus === "취소") {
-                MessageBox.information("이미 취소된 주문입니다.");
-                return;
-            }
-            
             // 업데이트할 엔티티의 경로를 가져옵니다. 예: /ZCAP_STOCK_ORDERSet('123')
             const sPath = oContext.getPath();
             const oModel = this.getView().getModel(); // OData 모델 가져오기
-            const oTable = this.byId("orderHistoryTable") || this.getView().byId("orderHistoryTable");
 
             // 사용자에게 취소 여부를 확인합니다.
             MessageBox.confirm("정말로 해당 주문을 취소하시겠습니까?", {
                 title: "주문 취소 확인",
-                onClose: (sAction) => { // 화살표 함수를 사용하여 'this' 컨텍스트 유지
+                onClose: (sAction) => { // 화살표 함수를 사용하여 'this' 컨텍스트 유지 (필요시)
                     if (sAction === MessageBox.Action.OK) {
                         // 서버로 보낼 페이로드(payload)를 구성합니다.
+                        // OrderStatus만 변경하므로, 해당 필드만 포함합니다.
+                        // OrderId는 sPath를 통해 서버에서 식별합니다.
                         const oPayload = {
                             OrderStatus: "취소"
                         };
 
-                        // 취소 처리 시작을 알림
-                        sap.ui.core.BusyIndicator.show(0);
                         console.log("Update Request Path:", sPath);
                         console.log("Update Payload:", JSON.stringify(oPayload));
 
                         // OData 모델의 update 메소드를 호출하여 서버에 변경사항을 전송합니다.
+                        // HTTP MERGE 또는 PUT 요청을 통해 UPDATE_ENTITY가 호출됩니다.
                         oModel.update(sPath, oPayload, {
                             success: (oResponseData) => {
-                                sap.ui.core.BusyIndicator.hide();
                                 console.log("Update successful:", oResponseData);
                                 MessageToast.show("주문 상태가 '취소'로 업데이트되었습니다.");
-                                
-                                // 메모리 내 오브젝트의 상태도 변경
-                                oData.OrderStatus = "취소";
-                                
-                                // 테이블 바인딩 새로고침
-                                if (oTable && oTable.getBinding("rows")) {
-                                    oTable.getBinding("rows").refresh();
-                                } else {
-                                    oModel.refresh(true); // 강제 새로고침
-                                }
+                                // UI의 데이터를 최신 상태로 반영하기 위해 모델을 새로고침합니다.
+                                // 이는 일반적으로 GET_ENTITYSET 요청을 다시 트리거합니다.
+                                oModel.refresh();
                             },
                             error: (oError) => {
-                                sap.ui.core.BusyIndicator.hide();
                                 console.error("Update failed:", oError);
                                 let sErrorMessage = "주문 상태 업데이트에 실패했습니다.";
                                 // 서버에서 구체적인 오류 메시지를 보냈다면 표시합니다.

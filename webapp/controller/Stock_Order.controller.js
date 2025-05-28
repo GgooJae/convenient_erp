@@ -125,10 +125,24 @@ sap.ui.define([
                 OrderDate: orderDate,
                 OrderOwner: sOwner
             };
+            // 알람
+            const arlam = {
+                UserId : sOwner,
+                Content : `${sOwner}님이 ${oData.ItemName}을(를) ${qty}개 발주`
+            }
 
             oModel.create("/zcap_stock_orderSet", oOrder, {
                 success: () => {
                     MessageToast.show("발주 완료!");
+                    oModel.create("/zcap_alarmSet", arlam, {
+                        success: () => {
+                            console.log("알람 생성 완료");
+                        },
+                        error: (oError) => {
+                            console.error("알람 생성 실패", oError);
+                            console.error(arlam);
+                        }
+                    });
                     this.byId("orderDialog").close();
                 },
                 error: (oError) => {
@@ -221,6 +235,10 @@ sap.ui.define([
                     OrderDate: sDate,
                     OrderOwner: sOwner
                 };
+                const arlam = {
+                    UserId : sOwner,
+                    Content : `${sOwner}님이 ${item.ItemName}을(를) ${item.OrderQuantity}개 발주`
+                }
 
                 oModel.create("/zcap_stock_orderSet", oOrder, {
                     success: () => {
@@ -228,6 +246,15 @@ sap.ui.define([
                         if (successCount + failCount === aItems.length) {
                             this._showOrderSummary(successCount, failCount);
                         }
+                        oModel.create("/zcap_alarmSet", arlam, {
+                            success: () => {
+                                console.log("알람 생성 완료");
+                            },
+                            error: (oError) => {
+                                console.error("알람 생성 실패", oError);
+                                console.error(arlam);
+                            }
+                        });
                     },
                     error: (oError) => {
                         failCount++;
