@@ -56,6 +56,12 @@ sap.ui.define([
 
                 // set the device model
                 this.setModel(models.createDeviceModel(), "device");
+
+                const oModel = new sap.ui.model.odata.v2.ODataModel({
+                    serviceUrl: "/sap/opu/odata/sap/ZCAP_GW_SRV_02/",
+                    useBatch: false // Batch processing disabled
+                });
+                this.setModel(oModel);
             }
             
         });

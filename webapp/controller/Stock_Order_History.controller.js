@@ -5,25 +5,25 @@ sap.ui.define([
     "use strict";
 
     return Controller.extend("convenienterp.controller.Stock_Order_History", {
-        onInit: function () {
-            const oModel = this.getOwnerComponent().getModel(); // OData 모델 가져오기  
+        // onInit: function () {
+        //     const oModel = this.getOwnerComponent().getModel(); // OData 모델 가져오기  
 
-            // 필터 조건 정의
-            const aFilters = [
-                new sap.ui.model.Filter("OrderStatus", sap.ui.model.FilterOperator.EQ, "Pending")
-            ];
+        //     // 필터 조건 정의
+        //     const aFilters = [
+        //         new sap.ui.model.Filter("OrderStatus", sap.ui.model.FilterOperator.EQ, "Pending")
+        //     ];
 
-            // 데이터 로드 확인
-            oModel.read("/zcap_stock_orderSet", {
-                filters: aFilters,
-                success: (oData) => {
-                    console.log("Data loaded successfully:", oData);
-                },
-                error: (oError) => {
-                    console.error("Failed to load data:", oError);
-                }
-            });
-        },
+        //     // 데이터 로드 확인
+        //     oModel.read("/zcap_stock_orderSet", {
+        //         filters: aFilters,
+        //         success: (oData) => {
+        //             console.log("Data loaded successfully:", oData);
+        //         },
+        //         error: (oError) => {
+        //             console.error("Failed to load data:", oError);
+        //         }
+        //     });
+        // },
         onApplyFilter: function () {
             const oTable = this.byId("orderHistoryTable");
             const oBinding = oTable.getBinding("rows");
@@ -74,11 +74,12 @@ sap.ui.define([
         onCancelPress: function (oEvent) {
             // 선택된 행의 컨텍스트 가져오기
             const oContext = oEvent.getSource().getBindingContext();
-            const sPath = oContext.getPath(); // 업데이트할 항목의 경로
+            const oData = oContext.getObject();
+            const sPath = `/zcap_stock_orderSet(OrderId='${oData.OrderId}')`; // 절대 경로로 수정
             const oModel = this.getView().getModel(); // OData 모델 가져오기
 
-            // 선택된 항목의 데이터 가져오기
-            const oData = oContext.getObject();
+            // CSRF 토큰 갱신
+            oModel.refreshSecurityToken();
 
             // 취소 확인 메시지
             sap.m.MessageBox.confirm("정말로 취소하시겠습니까?", {
@@ -87,14 +88,19 @@ sap.ui.define([
                         // OData 모델에서 항목 상태 업데이트
                         const oPayload = {
                             OrderId: oData.OrderId,
-                            OrderStatus: "취소"
+                            OrderStatus: '취소'
                         };
+                        console.log("Debugging Request:");
+                        console.log("Request URI:", sPath);
+                        console.log("Payload:", JSON.stringify(oPayload));
 
                         oModel.update(sPath, oPayload, {
+                            method: "PUT", // HTTP 메서드를 PUT으로 설정
                             success: function () {
                                 sap.m.MessageToast.show("상태가 '취소'로 업데이트되었습니다.");
                             },
-                            error: function () {
+                            error: function (oError) {
+                                console.error("Update failed:", oError);
                                 sap.m.MessageToast.show("상태 업데이트에 실패했습니다.");
                             }
                         });

@@ -6,7 +6,7 @@
             <mvc:XMLView viewName="convenienterp.view.common.NavigationBar"/>
         </headerContent>
         <content>
-        
+            
         <HBox width="100%">
                 <VBox width="70%" class="sapUiSmallMargin">
                     <items>
@@ -27,7 +27,7 @@
                                         id="inventoryOrderHistoryTile">
                                         <TileContent>
                                             <NumericContent
-                                                value="10"
+                                                value="{viewModel>/pendingCount}"
                                                 indicator="Up"
                                                 valueColor="Good" />
                                         </TileContent>
@@ -132,7 +132,7 @@
                     </items>
                 </VBox>
                 <VBox width="30%" class="sapUiSmallMargin">
-                    <Panel 
+                     <Panel 
                         id="announcementPanel"
                         headerText="공지사항" 
                         expandable="true" 
