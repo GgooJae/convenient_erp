@@ -169,6 +169,8 @@ sap.ui.define([
                         closeOnNavigation: false,
                         modal: true,
                         footer: oFooterBar,
+                        contentWidth: "340px",
+                        contentHeight: "320px",
                         afterClose: function() {
                             this._oBellPopover.destroy();
                             this._oBellPopover = null;

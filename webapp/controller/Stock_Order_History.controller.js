@@ -101,6 +101,19 @@ sap.ui.define([
                             success: (oResponseData) => {
                                 console.log("Update successful:", oResponseData);
                                 MessageToast.show("주문 상태가 '취소'로 업데이트되었습니다.");
+                                // 알람 생성 (취소)
+                                const sOwner = sessionStorage.getItem("username");
+                                const qty = oData.OrderItemQuan || 1;
+                                const arlam = {
+                                    UserId: sOwner,
+                                    Content: `${sOwner}님이 ${oData.OrderItemName} ${qty}개 주문을 취소`
+                                };
+                                oModel.create("/zcap_alarmSet", arlam, {
+                                    success: function() {
+                                        if (window.setBellIconState) window.setBellIconState('active');
+                                    },
+                                    error: function(e) { console.error("알람 생성 실패", e); }
+                                });
                                 // UI의 데이터를 최신 상태로 반영하기 위해 모델을 새로고침합니다.
                                 // 이는 일반적으로 GET_ENTITYSET 요청을 다시 트리거합니다.
                                 oModel.refresh();
