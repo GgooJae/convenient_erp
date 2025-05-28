@@ -88,7 +88,6 @@ sap.ui.define([
             var oButton = oEvent.getSource();
             var oView = this.getView();
             var oModel = this.getView().getModel();
-            // 기존 Popover가 열려 있으면 닫고 제거
             if (this._oBellPopover) {
                 this._oBellPopover.close();
                 this._oBellPopover.destroy();
@@ -96,10 +95,17 @@ sap.ui.define([
             }
             oModel.read("/zcap_alarmSet", {
                 success: function(oData) {
-                    console.log("알람 데이터 read 성공", oData);
                     var aAlarms = oData && oData.results ? oData.results : [];
-                    aAlarms.reverse(); // 최신 알람이 위로 오도록 역순 정렬
-                    var oTempModel = new sap.ui.model.json.JSONModel({ alarms: aAlarms });
+                    aAlarms.reverse(); // 최신순
+                    var pageSize = 10;
+                    var currentPage = 1;
+                    var totalPages = Math.ceil(aAlarms.length / pageSize);
+                    var getPageData = function(page) {
+                        var start = (page - 1) * pageSize;
+                        var end = start + pageSize;
+                        return aAlarms.slice(start, end);
+                    };
+                    var oTempModel = new sap.ui.model.json.JSONModel({ alarms: getPageData(currentPage) });
                     var oList = new sap.m.List({
                         items: {
                             path: '/alarms',
@@ -113,10 +119,46 @@ sap.ui.define([
                     if (aAlarms.length === 0) {
                         oList.addItem(new sap.m.StandardListItem({ title: '알림이 없습니다.' }));
                     }
+                    // 페이지네이션 버튼
+                    var oPrevBtn = new sap.m.Button({
+                        text: '이전',
+                        type: sap.m.ButtonType.Transparent,
+                        enabled: currentPage > 1,
+                        press: function() {
+                            if (currentPage > 1) {
+                                currentPage--;
+                                oTempModel.setProperty('/alarms', getPageData(currentPage));
+                                oPrevBtn.setEnabled(currentPage > 1);
+                                oNextBtn.setEnabled(currentPage < totalPages);
+                                oPageInfo.setText(currentPage + ' / ' + totalPages);
+                            }
+                        }
+                    });
+                    var oNextBtn = new sap.m.Button({
+                        text: '다음',
+                        type: sap.m.ButtonType.Transparent,
+                        enabled: currentPage < totalPages,
+                        press: function() {
+                            if (currentPage < totalPages) {
+                                currentPage++;
+                                oTempModel.setProperty('/alarms', getPageData(currentPage));
+                                oPrevBtn.setEnabled(currentPage > 1);
+                                oNextBtn.setEnabled(currentPage < totalPages);
+                                oPageInfo.setText(currentPage + ' / ' + totalPages);
+                            }
+                        }
+                    });
+                    var oPageInfo = new sap.m.Text({ text: currentPage + ' / ' + totalPages });
+                    var oFooterBar = new sap.m.Bar({
+                        contentMiddle: [oPrevBtn, oPageInfo, oNextBtn]
+                    });
                     this._oBellPopover = new sap.m.Popover({
                         title: "최근 알림",
                         placement: "Bottom",
                         content: [oList],
+                        closeOnNavigation: false,
+                        modal: true,
+                        footer: totalPages > 1 ? oFooterBar : null,
                         afterClose: function() {
                             this._oBellPopover.destroy();
                             this._oBellPopover = null;

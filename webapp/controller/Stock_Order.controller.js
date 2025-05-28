@@ -274,6 +274,9 @@ sap.ui.define([
                 MessageToast.show(`총 ${successCount}개 품목 발주 완료`);
             }
             this.byId("multiOrderDialog").close();
+
+            // 가장 간단하게 전체 페이지 새로고침
+            location.reload();
         },
 
         // 다품목 발주 취소
