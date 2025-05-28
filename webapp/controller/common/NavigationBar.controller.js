@@ -87,26 +87,48 @@ sap.ui.define([
         onBellIconPress: function (oEvent) {
             var oButton = oEvent.getSource();
             var oView = this.getView();
-
-            if (!this._oBellPopover) {
-                this._oBellPopover = new Popover({
-                    title: "최근 알림",
-                    placement: "Bottom",
-                    content: new List({
-                        items: [
-                            new StandardListItem({ title: "알림1" }),
-                            new StandardListItem({ title: "알림2" }),
-                            new StandardListItem({ title: "알림3" }),
-                            new StandardListItem({ title: "알림4" }),
-                            new StandardListItem({ title: "알림5" })
-                        ]
-                    })
-                });
-
-                oView.addDependent(this._oBellPopover);
+            var oModel = this.getView().getModel();
+            // 기존 Popover가 열려 있으면 닫고 제거
+            if (this._oBellPopover) {
+                this._oBellPopover.close();
+                this._oBellPopover.destroy();
+                this._oBellPopover = null;
             }
-
-            this._oBellPopover.openBy(oButton);
+            oModel.read("/zcap_alarmSet", {
+                success: function(oData) {
+                    console.log("알람 데이터 read 성공", oData);
+                    var aAlarms = oData && oData.results ? oData.results : [];
+                    aAlarms.reverse(); // 최신 알람이 위로 오도록 역순 정렬
+                    var oTempModel = new sap.ui.model.json.JSONModel({ alarms: aAlarms });
+                    var oList = new sap.m.List({
+                        items: {
+                            path: '/alarms',
+                            template: new sap.m.StandardListItem({
+                                title: '{Content}'
+                            })
+                        }
+                    });
+                    oList.setModel(oTempModel);
+                    // 데이터 없을 때 안내
+                    if (aAlarms.length === 0) {
+                        oList.addItem(new sap.m.StandardListItem({ title: '알림이 없습니다.' }));
+                    }
+                    this._oBellPopover = new sap.m.Popover({
+                        title: "최근 알림",
+                        placement: "Bottom",
+                        content: [oList],
+                        afterClose: function() {
+                            this._oBellPopover.destroy();
+                            this._oBellPopover = null;
+                        }.bind(this)
+                    });
+                    oView.addDependent(this._oBellPopover);
+                    this._oBellPopover.openBy(oButton);
+                }.bind(this),
+                error: function(oError) {
+                    sap.m.MessageToast.show("알람 데이터를 불러오지 못했습니다.");
+                }
+            });
         },
 
         onAccountIconPress: function (oEvent) {
