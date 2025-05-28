@@ -148,9 +148,19 @@ sap.ui.define([
                             }
                         }
                     });
+                    var oCloseBtn = new sap.m.Button({
+                        text: '닫기',
+                        type: sap.m.ButtonType.Reject,
+                        press: function() {
+                            if (this._oBellPopover) {
+                                this._oBellPopover.close();
+                            }
+                        }.bind(this)
+                    });
                     var oPageInfo = new sap.m.Text({ text: currentPage + ' / ' + totalPages });
                     var oFooterBar = new sap.m.Bar({
-                        contentMiddle: [oPrevBtn, oPageInfo, oNextBtn]
+                        contentMiddle: [oPrevBtn, oPageInfo, oNextBtn],
+                        contentRight: [oCloseBtn]
                     });
                     this._oBellPopover = new sap.m.Popover({
                         title: "최근 알림",
@@ -158,7 +168,7 @@ sap.ui.define([
                         content: [oList],
                         closeOnNavigation: false,
                         modal: true,
-                        footer: totalPages > 1 ? oFooterBar : null,
+                        footer: oFooterBar,
                         afterClose: function() {
                             this._oBellPopover.destroy();
                             this._oBellPopover = null;

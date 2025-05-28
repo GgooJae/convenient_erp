@@ -47,11 +47,18 @@ sap.ui.define([
                 aFilters.push(new sap.ui.model.Filter("OrderItemQuan", sap.ui.model.FilterOperator.LE, parseInt(sMaxQuantity, 10)));
             }
 
-            // 필터 적용
+            // 상태 필터
+            const sStatus = this.byId("orderStatusFilter").getValue().padEnd(10, ' ');
+            if (sStatus) {
+                aFilters.push(new sap.ui.model.Filter("OrderStatus", sap.ui.model.FilterOperator.Contains, sStatus));
+            }
+
+            // 정렬 항상 유지
             oBinding.filter(aFilters);
 
+
             // 필터 적용 로그
-            console.log("Filters applied:", aFilters);
+            console.log("Filters applied:", sStatus, sOrderItemName, oDateRange, oEndDate, sOrderOwner, sMinQuantity, sMaxQuantity);
         },
 
        onCancelPress: function (oEvent) {
