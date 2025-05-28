@@ -1,29 +1,11 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller"
-    , "sap/m/MessageBox"
-], function (Controller) {
+    "sap/ui/core/mvc/Controller",
+    "sap/m/MessageBox",
+    "sap/m/MessageToast" // MessageToast 추가
+], function (Controller, MessageBox, MessageToast) { // MessageToast 매개변수 추가
     "use strict";
 
     return Controller.extend("convenienterp.controller.Stock_Order_History", {
-        // onInit: function () {
-        //     const oModel = this.getOwnerComponent().getModel(); // OData 모델 가져오기  
-
-        //     // 필터 조건 정의
-        //     const aFilters = [
-        //         new sap.ui.model.Filter("OrderStatus", sap.ui.model.FilterOperator.EQ, "Pending")
-        //     ];
-
-        //     // 데이터 로드 확인
-        //     oModel.read("/zcap_stock_orderSet", {
-        //         filters: aFilters,
-        //         success: (oData) => {
-        //             console.log("Data loaded successfully:", oData);
-        //         },
-        //         error: (oError) => {
-        //             console.error("Failed to load data:", oError);
-        //         }
-        //     });
-        // },
         onApplyFilter: function () {
             const oTable = this.byId("orderHistoryTable");
             const oBinding = oTable.getBinding("rows");
@@ -70,44 +52,84 @@ sap.ui.define([
 
             // 필터 적용 로그
             console.log("Filters applied:", aFilters);
-        },
-        onCancelPress: function (oEvent) {
-            // 선택된 행의 컨텍스트 가져오기
-            const oContext = oEvent.getSource().getBindingContext();
+        },       onCancelPress: function (oEvent) {
+            const oButton = oEvent.getSource();
+            // 버튼이 속한 행의 바인딩 컨텍스트를 가져옵니다.
+            const oContext = oButton.getBindingContext();
+
+            if (!oContext) {
+                MessageToast.show("선택된 데이터가 없습니다.");
+                return;
+            }
+
+            // 컨텍스트에서 실제 데이터 객체를 가져옵니다.
             const oData = oContext.getObject();
-            const sPath = `/zcap_stock_orderSet(OrderId='${oData.OrderId}')`; // 절대 경로로 수정
+            
+            // 이미 취소된 주문인지 확인
+            if (oData.OrderStatus === "취소") {
+                MessageBox.information("이미 취소된 주문입니다.");
+                return;
+            }
+            
+            // 업데이트할 엔티티의 경로를 가져옵니다. 예: /ZCAP_STOCK_ORDERSet('123')
+            const sPath = oContext.getPath();
             const oModel = this.getView().getModel(); // OData 모델 가져오기
+            const oTable = this.byId("orderHistoryTable") || this.getView().byId("orderHistoryTable");
 
-            // CSRF 토큰 갱신
-            oModel.refreshSecurityToken();
-
-            // 취소 확인 메시지
-            sap.m.MessageBox.confirm("정말로 취소하시겠습니까?", {
-                onClose: function (sAction) {
-                    if (sAction === sap.m.MessageBox.Action.OK) {
-                        // OData 모델에서 항목 상태 업데이트
+            // 사용자에게 취소 여부를 확인합니다.
+            MessageBox.confirm("정말로 해당 주문을 취소하시겠습니까?", {
+                title: "주문 취소 확인",
+                onClose: (sAction) => { // 화살표 함수를 사용하여 'this' 컨텍스트 유지
+                    if (sAction === MessageBox.Action.OK) {
+                        // 서버로 보낼 페이로드(payload)를 구성합니다.
                         const oPayload = {
-                            OrderId: oData.OrderId,
-                            OrderStatus: '취소'
+                            OrderStatus: "취소"
                         };
-                        console.log("Debugging Request:");
-                        console.log("Request URI:", sPath);
-                        console.log("Payload:", JSON.stringify(oPayload));
 
+                        // 취소 처리 시작을 알림
+                        sap.ui.core.BusyIndicator.show(0);
+                        console.log("Update Request Path:", sPath);
+                        console.log("Update Payload:", JSON.stringify(oPayload));
+
+                        // OData 모델의 update 메소드를 호출하여 서버에 변경사항을 전송합니다.
                         oModel.update(sPath, oPayload, {
-                            method: "PUT", // HTTP 메서드를 PUT으로 설정
-                            success: function () {
-                                sap.m.MessageToast.show("상태가 '취소'로 업데이트되었습니다.");
+                            success: (oResponseData) => {
+                                sap.ui.core.BusyIndicator.hide();
+                                console.log("Update successful:", oResponseData);
+                                MessageToast.show("주문 상태가 '취소'로 업데이트되었습니다.");
+                                
+                                // 메모리 내 오브젝트의 상태도 변경
+                                oData.OrderStatus = "취소";
+                                
+                                // 테이블 바인딩 새로고침
+                                if (oTable && oTable.getBinding("rows")) {
+                                    oTable.getBinding("rows").refresh();
+                                } else {
+                                    oModel.refresh(true); // 강제 새로고침
+                                }
                             },
-                            error: function (oError) {
+                            error: (oError) => {
+                                sap.ui.core.BusyIndicator.hide();
                                 console.error("Update failed:", oError);
-                                sap.m.MessageToast.show("상태 업데이트에 실패했습니다.");
+                                let sErrorMessage = "주문 상태 업데이트에 실패했습니다.";
+                                // 서버에서 구체적인 오류 메시지를 보냈다면 표시합니다.
+                                if (oError.responseText) {
+                                    try {
+                                        const oErrorResponse = JSON.parse(oError.responseText);
+                                        if (oErrorResponse && oErrorResponse.error && oErrorResponse.error.message && oErrorResponse.error.message.value) {
+                                            sErrorMessage = oErrorResponse.error.message.value;
+                                        }
+                                    } catch (e) {
+                                        // JSON 파싱 실패 시 기본 오류 메시지 사용
+                                        console.warn("Failed to parse error responseText:", e);
+                                    }
+                                }
+                                MessageBox.error(sErrorMessage);
                             }
                         });
                     }
                 }
             });
         }
-
     });
 });
