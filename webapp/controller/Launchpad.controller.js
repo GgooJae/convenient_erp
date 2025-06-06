@@ -57,10 +57,12 @@ sap.ui.define([
 
     _updatePendingCount: function () {
       const oModel = this.getOwnerComponent().getModel(); // OData 모델 가져오기
+      const sUserId = sessionStorage.getItem("username").padEnd(10, ' '); // 사용자 ID 가져오기
 
       // 필터 조건 정의
       const aFilters = [
-        new sap.ui.model.Filter("OrderStatus", sap.ui.model.FilterOperator.Contains, "대기".padEnd(10, ' '))
+        new sap.ui.model.Filter("OrderStatus", sap.ui.model.FilterOperator.Contains, "대기".padEnd(10, ' ')),
+        new sap.ui.model.Filter("OrderOwner", sap.ui.model.FilterOperator.Contains, sUserId)
       ];
 
       // 데이터 읽기 및 개수 계산
@@ -92,19 +94,10 @@ sap.ui.define([
       oRouter.navTo("RouteStock_Order_History");
     },
 
-    // <<<<<<< HEAD
-    //             const sUserId = sessionStorage.getItem("username").padEnd(10, ' '); // 사용자 ID 가져오기
-    //             // 필터 조건 정의
-    //             const aFilters = [
-    //                 new sap.ui.model.Filter("OrderStatus", sap.ui.model.FilterOperator.Contains, "대기".padEnd(10, ' ')),
-    //                 new sap.ui.model.Filter("OrderOwner", sap.ui.model.FilterOperator.Contains, sUserId)
-    //             ];
-    // =======
     onPressHOOrderHistory: function () {
       var oRouter = this.getOwnerComponent().getRouter();
       oRouter.navTo("RouteStock_Order_History_HO");
     },
-    // >>>>>>> master
 
     // onPressInventory: function () {
     //   var oRouter = this.getOwnerComponent().getRouter();
