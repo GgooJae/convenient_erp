@@ -48,6 +48,43 @@
                                 </Panel>
                             </items>
                         </HBox>
+                        <HBox>
+                            <items>
+                                <Panel width="250px" backgroundDesign="Transparent">
+                                    <GenericTile
+                                        header="주문 내역"
+                                        press="onPressHOOrderHistory"
+                                        id="hoOrderHistoryTile">
+                                    </GenericTile>
+                                </Panel>
+                                <Panel width="250px" backgroundDesign="Transparent">
+                                    <GenericTile
+                                        header="공장 수주"
+                                        press="onPressFactoryOrder"
+                                        id="factoryOrderTile">
+                                        <TileContent>
+                                            <NumericContent
+                                                value="{viewModel>/pendingCount}"
+                                                indicator="Up"
+                                                valueColor="Good" />
+                                        </TileContent>
+                                    </GenericTile>
+                                </Panel>
+                                <Panel width="250px" backgroundDesign="Transparent">
+                                    <GenericTile
+                                        header="납품"
+                                        press="onPressDelivery"
+                                        id="deliveryTile">
+                                        <TileContent>
+                                            <NumericContent
+                                                value="5546"
+                                                indicator="Up"
+                                                valueColor="Good" />
+                                        </TileContent>
+                                    </GenericTile>
+                                </Panel>
+                            </items>
+                        </HBox>
                         <Title text="입고 및 일정 관리" class="categoryTitle" />
                         <HBox>
                             <items>
@@ -77,6 +114,36 @@
                                         </TileContent>
                                     </GenericTile>
                                 </Panel>
+                            </items>
+                        </HBox>
+                        <HBox>
+                            <items>
+                            <Panel width="250px" backgroundDesign="Transparent">
+                                <GenericTile
+                                    header="공장 수주 일정"
+                                    press="onPressFactorySchedule"
+                                    id="factoryScheduleTile">
+                                    <TileContent>
+                                        <NumericContent
+                                            value="10"
+                                            indicator="Up"
+                                            valueColor="Good" />
+                                    </TileContent>
+                                </GenericTile>
+                            </Panel>
+                            <Panel width="250px" backgroundDesign="Transparent">
+                                <GenericTile
+                                    header="점주 납품 일정"
+                                    press="onPressManagerDeliverySchedule"
+                                    id="managerDeliveryScheduleTile">
+                                    <TileContent>
+                                        <NumericContent
+                                            value="10"
+                                            indicator="Up"
+                                            valueColor="Good" />
+                                    </TileContent>
+                                </GenericTile>
+                            </Panel>
                             </items>
                         </HBox>
                         <Title text="판매" class="categoryTitle" />

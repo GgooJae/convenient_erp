@@ -36,9 +36,14 @@ sap.ui.define([
                             // 로그인 성공
                             MessageToast.show("로그인 성공!");
 
+                            //로그인 세션 초기화
+                            sessionStorage.clear();
+
                             // 로그인 상태 저장
                             sessionStorage.setItem("isLoggedIn", "true");
                             sessionStorage.setItem("username", sUsername); // 필요 시 사용자 이름 저장
+                            console.log("ROLE FROM DB:", oUser.User_Role);  // 여기가 null이라면 DB 문제
+                            sessionStorage.setItem("userrole", oUser.User_Role); // 역할 저장
 
                             // Launchpad 화면으로 이동
                             const oRouter = this.getOwnerComponent().getRouter();

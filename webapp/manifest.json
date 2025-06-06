@@ -91,12 +91,12 @@
           "pattern": "",
           "name": "RouteLogin",
           "target": "TargetLogin"
-      },
+        },
         {
           "pattern": "",
           "name": "RouteLogin_2",
           "target": "TargetLogin_2"
-      },
+        },
         {
           "name": "RouteLaunchpad",
           "pattern": "launchpad",
@@ -117,8 +117,14 @@
           "target": [
             "TargetStock_Order_History"
           ]
+        },
+        {
+          "name": "RouteStock_Order_History_HO",
+          "pattern": "stockorderhistoryho",
+          "target": [
+            "TargetStock_Order_History_HO"
+          ]
         }
-        
       ],
       "targets": {
         "TargetLaunchpad": {
@@ -136,24 +142,32 @@
           "viewName": "Stock_Order"
         },
         "TargetLogin": {
-        "viewType": "XML",
-        "transition": "slide",
-        "clearControlAggregation": false,
-        "viewId": "Login",
-        "viewName": "Login"
-    },
-      "TargetLogin_2" : {
-        "viewType": "XML",
-        "transition": "show",
-        "clearControlAggregation": false,
-        "viewId": "Login",
-        "viewName": "Login"},
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "Login",
+          "viewName": "Login"
+        },
+        "TargetLogin_2": {
+          "viewType": "XML",
+          "transition": "show",
+          "clearControlAggregation": false,
+          "viewId": "Login",
+          "viewName": "Login"
+        },
         "TargetStock_Order_History": {
           "viewType": "XML",
           "transition": "slide",
           "clearControlAggregation": false,
           "viewId": "Stock_Order_History",
           "viewName": "Stock_Order_History"
+        },
+        "TargetStock_Order_History_HO": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "Stock_Order_History_HO",
+          "viewName": "Stock_Order_History_HO"
         }
       }
     },

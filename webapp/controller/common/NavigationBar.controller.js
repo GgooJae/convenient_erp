@@ -15,7 +15,7 @@ sap.ui.define([
                 const highlighted = document.querySelectorAll(".blinkingHighlight");
                 highlighted.forEach(el => el.classList.remove("blinkingHighlight"));
             }, 0);
-            
+
             var oRouter = this.getOwnerComponent().getRouter();
             oRouter.navTo("RouteLaunchpad");
         },
@@ -101,13 +101,13 @@ sap.ui.define([
                 this._oBellPopover = null;
             }
             oModel.read("/zcap_alarmSet", {
-                success: function(oData) {
+                success: function (oData) {
                     var aAlarms = oData && oData.results ? oData.results : [];
                     aAlarms.reverse(); // 최신순
                     var pageSize = 10;
                     var currentPage = 1;
                     var totalPages = Math.ceil(aAlarms.length / pageSize);
-                    var getPageData = function(page) {
+                    var getPageData = function (page) {
                         var start = (page - 1) * pageSize;
                         var end = start + pageSize;
                         return aAlarms.slice(start, end);
@@ -131,7 +131,7 @@ sap.ui.define([
                         text: '이전',
                         type: sap.m.ButtonType.Transparent,
                         enabled: currentPage > 1,
-                        press: function() {
+                        press: function () {
                             if (currentPage > 1) {
                                 currentPage--;
                                 oTempModel.setProperty('/alarms', getPageData(currentPage));
@@ -145,7 +145,7 @@ sap.ui.define([
                         text: '다음',
                         type: sap.m.ButtonType.Transparent,
                         enabled: currentPage < totalPages,
-                        press: function() {
+                        press: function () {
                             if (currentPage < totalPages) {
                                 currentPage++;
                                 oTempModel.setProperty('/alarms', getPageData(currentPage));
@@ -158,7 +158,7 @@ sap.ui.define([
                     var oCloseBtn = new sap.m.Button({
                         text: '닫기',
                         type: sap.m.ButtonType.Reject,
-                        press: function() {
+                        press: function () {
                             if (this._oBellPopover) {
                                 this._oBellPopover.close();
                             }
@@ -179,7 +179,7 @@ sap.ui.define([
                         footer: oFooterBar,
                         contentWidth: "340px",
                         contentHeight: "320px",
-                        afterClose: function() {
+                        afterClose: function () {
                             this._oBellPopover.destroy();
                             this._oBellPopover = null;
                         }.bind(this)
@@ -187,7 +187,7 @@ sap.ui.define([
                     oView.addDependent(this._oBellPopover);
                     this._oBellPopover.openBy(oButton);
                 }.bind(this),
-                error: function(oError) {
+                error: function (oError) {
                     sap.m.MessageToast.show("알람 데이터를 불러오지 못했습니다.");
                 }
             });
@@ -223,21 +223,23 @@ sap.ui.define([
             // 로그아웃 상태로 설정
             sessionStorage.removeItem("isLoggedIn"); // 로그인 상태 제거
             sessionStorage.removeItem("username"); // 필요 시 사용자 이름도 제거
+            sessionStorage.removeItem("userrole"); // 역할 제거
+
 
             MessageToast.show("로그아웃되었습니다.");
 
             // 로그인 화면으로 이동
             var oRouter = this.getOwnerComponent().getRouter();
             if (oRouter) {
-                oRouter.navTo("RouteLogin_2");
-                console.log(sessionStorage.getItem("username")," 로그아웃됨",sessionStorage.getItem("isLoggedIn"));
+                oRouter.navTo("RouteLogin_2", {}, true);
+                console.log(sessionStorage.getItem("username"), " 로그아웃됨", sessionStorage.getItem("isLoggedIn"));
             } else {
                 console.error("Router not found. Navigation failed.");
             }
         },
         onInit: function () {
             // 전역에서 bell 상태를 바꿀 수 있도록 window에 함수 등록
-            window.setBellIconState = function(state) {
+            window.setBellIconState = function (state) {
                 var bellDom = document.querySelector('[id$="bellIcon"]');
                 if (!bellDom) return;
 
@@ -295,7 +297,7 @@ sap.ui.define([
                 document.body.appendChild(chatBox);
 
                 // 닫기 버튼 이벤트
-                document.getElementById("aiChatCloseBtn").onclick = function() {
+                document.getElementById("aiChatCloseBtn").onclick = function () {
                     chatBox.style.display = "none";
                 };
 
@@ -321,7 +323,7 @@ sap.ui.define([
                 // 전송 버튼 클릭
                 document.getElementById("aiChatSendBtn").onclick = sendChat;
                 // 엔터 입력
-                document.getElementById("aiChatInput").onkeydown = function(e) {
+                document.getElementById("aiChatInput").onkeydown = function (e) {
                     if (e.key === "Enter") sendChat();
                 };
             }
@@ -334,7 +336,7 @@ sap.ui.define([
                 chatBox.style.display = (chatBox.style.display === "none" ? "flex" : "none");
                 // 포커스 자동 이동
                 if (chatBox.style.display === "flex") {
-                    setTimeout(function() {
+                    setTimeout(function () {
                         var input = document.getElementById("aiChatInput");
                         if (input) input.focus();
                     }, 100);
