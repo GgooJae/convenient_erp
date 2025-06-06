@@ -40,17 +40,6 @@ sap.ui.define([
                 `;
                 document.head.appendChild(style);
             }
-            window.addEventListener("hashchange", function() {
-                console.log("popstate 이벤트로 로그아웃 처리됨1");
-                // 현재 hash가 런치패드(예: #/RouteLaunchpad)일 때만 로그아웃
-                if (window.location.hash.indexOf("RouteLaunchpad") > -1) {
-                    // 컨트롤러 인스턴스에서 onLogout 호출
-                    if (typeof this.onLogout === "function") {
-                        this.onLogout();
-                        console.log("popstate 이벤트로 로그아웃 처리됨2");
-                    }
-                }
-            }.bind(this));
         },
 
         // ✅ 검색창에서 Enter로 검색
