@@ -35,6 +35,18 @@
                 <Property Name="OrderOwner" Type="Edm.String" Nullable="false" MaxLength="20" sap:label="ORDER_OWNER"/>
             </EntityType>
             <EntitySet Name="zcap_stock_orderSet" EntityType="ZCAP_GW_SRV_02.zcap_stock_order" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+            <EntityType Name="zcap_stocks" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="StockId"/>
+                </Key>
+                <Property Name="StockId" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="STOCK_ID"/>
+                <Property Name="UserId" Type="Edm.String" Nullable="false" MaxLength="20" sap:label="USER_ID"/>
+                <Property Name="UserNum" Type="Edm.String" Nullable="false" MaxLength="10" sap:label="USER_NUM"/>
+                <Property Name="StockName" Type="Edm.String" Nullable="false" MaxLength="50" sap:label="STOCK_NAME"/>
+                <Property Name="StockQuan" Type="Edm.Int32" Nullable="false" sap:label="STOCK_QUAN"/>
+            </EntityType>
+            <EntitySet Name="zcap_stocksSet" EntityType="ZCAP_GW_SRV_02.zcap_stocks" sap:creatable="true" sap:updatable="true" sap:deletable="true"/>
+                    
         </Schema>
     </edmx:DataServices>
 </edmx:Edmx>

@@ -36,11 +36,11 @@
                                 <Panel width="250px" backgroundDesign="Transparent">
                                     <GenericTile
                                         header="재고"
-                                        press="onPressCheckInventoryOrder"
+                                        press="onPressCheckInventory"
                                         id="inventoryTile">
                                         <TileContent>
                                             <NumericContent
-                                                value="5546"
+                                                value="0"
                                                 indicator="Up"
                                                 valueColor="Good" />
                                         </TileContent>
@@ -77,7 +77,7 @@
                                         id="deliveryTile">
                                         <TileContent>
                                             <NumericContent
-                                                value="5546"
+                                                value="0"
                                                 indicator="Up"
                                                 valueColor="Good" />
                                         </TileContent>

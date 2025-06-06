@@ -131,6 +131,13 @@
           "target": [
             "TargetStock_Order_Schedule"
           ]
+        },
+        {
+          "name": "RouteCheck_Inventory",
+          "pattern": "checkinventory",
+          "target": [
+            "TargetCheck_Inventory"
+          ]
         }
       ],
       "targets": {
@@ -182,6 +189,13 @@
           "clearControlAggregation": false,
           "viewId": "Stock_Order_Schedule",
           "viewName": "Stock_Order_Schedule"
+        },
+        "TargetCheck_Inventory": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "Check_Inventory",
+          "viewName": "Check_Inventory"
         }
       }
     },

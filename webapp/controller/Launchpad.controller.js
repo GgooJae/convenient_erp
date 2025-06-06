@@ -116,12 +116,12 @@ sap.ui.define([
     onPressSchedule: function () {
       var oRouter = this.getOwnerComponent().getRouter();
       oRouter.navTo("RouteStock_Order_Schedule");
-    }
+    },
 
-    // onPressInventory: function () {
-    //   var oRouter = this.getOwnerComponent().getRouter();
-    //   oRouter.navTo("Stock");
-    // },
+    onPressCheckInventory: function () {
+      var oRouter = this.getOwnerComponent().getRouter();
+      oRouter.navTo("RouteCheck_Inventory");
+    }
 
     // onPressExpirationDate: function () {
     //   var oRouter = this.getOwnerComponent().getRouter();
