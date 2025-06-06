@@ -124,6 +124,13 @@
           "target": [
             "TargetStock_Order_History_HO"
           ]
+        },
+        {
+          "name": "RouteStock_Order_Schedule",
+          "pattern": "stockorderschedule",
+          "target": [
+            "TargetStock_Order_Schedule"
+          ]
         }
       ],
       "targets": {
@@ -168,6 +175,13 @@
           "clearControlAggregation": false,
           "viewId": "Stock_Order_History_HO",
           "viewName": "Stock_Order_History_HO"
+        },
+        "TargetStock_Order_Schedule": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "Stock_Order_Schedule",
+          "viewName": "Stock_Order_Schedule"
         }
       }
     },

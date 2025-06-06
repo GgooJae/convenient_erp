@@ -1,5 +1,5 @@
 <mvc:View
-    controllerName="convenienterp.controller.Stock_Order_History_HO"
+    controllerName="convenienterp.controller.Stock_Order_Schedule"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
@@ -16,25 +16,25 @@
 
                     <!-- 품목명 필터 -->
                     <Label text="품목명" class="Labelf"/>
-                    <Input id="orderItemNameFilterHO" placeholder="품목명 입력" width="150px"/>
+                    <Input id="orderItemNameFilterSCH" placeholder="품목명 입력" width="150px"/>
 
                     <!-- 날짜 필터 -->
                     <Label text="주문 날짜" class="Label"/>
-                    <DateRangeSelection id="orderDateFilterHO" width="230px" delimiter=" ~ " displayFormat="yyyy-MM-dd" valueFormat="yy-MM-dd"/>
+                    <DateRangeSelection id="orderDateFilterSCH" width="230px" delimiter=" ~ " displayFormat="yyyy-MM-dd" valueFormat="yy-MM-dd"/>
                     
                     <!-- 주문자 필터 -->
                     <Label text="주문자" class="Label"/>
-                    <Input id="orderOwnerFilterHO" placeholder="주문자 입력" width="150px"/>
+                    <Input id="orderOwnerFilterSCH" placeholder="주문자 입력" width="150px"/>
                     
                     <!-- 수량 필터 -->
                     <Label text="수량" class="Label"/>
-                    <Input id="quantityMinFilterHO" placeholder="최소 수량" width="100px"/>
+                    <Input id="quantityMinFilterSCH" placeholder="최소 수량" width="100px"/>
                     <Label text="~"/>
-                    <Input id="quantityMaxFilterHO" placeholder="최대 수량" width="100px"/>
+                    <Input id="quantityMaxFilterSCH" placeholder="최대 수량" width="100px"/>
                     
                     <!-- 상태 필터 -->
                     <Label text="상태" class="Label"/>
-                    <ComboBox id="orderStatusFilterHO" width="80px">
+                    <ComboBox id="orderStatusFilterSCH" width="80px">
                         <core:Item key="Pending" text="대기" />
                         <core:Item key="Completed" text="완료" />
                         <core:Item key="Approved" text="승인" />
@@ -48,7 +48,7 @@
                 </HBox>
             </VBox>
             <table:Table
-                id="orderHistoryTableHO"
+                id="orderHistoryTableSCH"
                 rows="{/zcap_stock_orderSet}"
                 visibleRowCount="15"
                 selectionMode="None"
@@ -98,9 +98,9 @@
                         </table:template>
                     </table:Column>
                     <table:Column width="90px">
-                        <Label text="승인" />
+                        <Label text="완료" />
                         <table:template>
-                            <Button text="승인" press="onApprovedPress" type="Reject" visible="{= ${OrderStatus} === '대기' }" />
+                            <Button text="완료" press="onCompletePress" type="Reject" visible="{= ${OrderStatus} === '승인' }" />
                         </table:template>
                     </table:Column>
                 </table:columns>

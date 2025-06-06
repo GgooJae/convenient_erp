@@ -36,8 +36,8 @@
                     <Label text="상태" class="Label"/>
                     <ComboBox id="orderStatusFilter" width="80px">
                         <core:Item key="Pending" text="대기" />
-                        <core:Item key="Completed" text="승인" />
-                        <core:Item key="Cancelled" text="완료" />
+                        <core:Item key="Completed" text="완료" />
+                        <core:Item key="approved" text="승인" />
                         <core:Item key="Cancelled" text="취소" />
                     </ComboBox>
                     
