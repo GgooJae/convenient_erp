@@ -95,7 +95,7 @@
                                         id="scheduleTile">
                                         <TileContent>
                                             <NumericContent
-                                                value="{viewModel>/pendingCount}"
+                                                value="{viewModel>/pendingCount2}"
                                                 indicator="Up"
                                                 valueColor="Good" />
                                         </TileContent>

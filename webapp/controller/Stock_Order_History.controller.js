@@ -54,12 +54,6 @@ sap.ui.define([
                 }));
             }
 
-            // 주문자 필터
-            const sOrderOwner = this.byId("orderOwnerFilter").getValue().padEnd(10, ' ');
-            if (sOrderOwner) {
-                aFilters.push(new sap.ui.model.Filter("OrderOwner", sap.ui.model.FilterOperator.Contains, sOrderOwner));
-            }
-
             // 수량 필터
             const sMinQuantity = this.byId("quantityMinFilter").getValue();
             const sMaxQuantity = this.byId("quantityMaxFilter").getValue();
@@ -76,7 +70,7 @@ sap.ui.define([
             if (sStatus) {
                 aFilters.push(new sap.ui.model.Filter("OrderStatus", sap.ui.model.FilterOperator.Contains, sStatus));
             }
-
+            aFilters.push(new sap.ui.model.Filter("OrderOwner", sap.ui.model.FilterOperator.Contains, sessionStorage.getItem("username").padEnd(10, ' ')));
             // 정렬 항상 유지
             oBinding.filter(aFilters);
 

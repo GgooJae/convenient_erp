@@ -13,7 +13,6 @@ sap.ui.define([
       // 라우터 가져오기
       const oRouter = this.getOwnerComponent().getRouter();
       oRouter.getRoute("RouteLaunchpad").attachMatched(this.onRouteMatched, this); // 라우트 매칭 이벤트 핸들러 등록
-
     },
 
     onRouteMatched: function () {
@@ -48,10 +47,7 @@ sap.ui.define([
         this.byId("managerDeliveryScheduleTile")?.setVisible(false);
       }
 
-
       // 초기 데이터 로드
-      this._updatePendingCount();
-      // 라우트가 매칭될 때마다 숫자 업데이트
       this._updatePendingCount();
     },
 
@@ -65,17 +61,35 @@ sap.ui.define([
         new sap.ui.model.Filter("OrderOwner", sap.ui.model.FilterOperator.Contains, sUserId)
       ];
 
-      // 데이터 읽기 및 개수 계산
+      const bFilters = [
+        new sap.ui.model.Filter("OrderStatus", sap.ui.model.FilterOperator.Contains, "승인".padEnd(10, ' ')),
+        new sap.ui.model.Filter("OrderOwner", sap.ui.model.FilterOperator.Contains, sUserId)
+      ];
+
+      // 하나의 모델에 두 값을 저장하고 setModel은 한 번만!
+      let oViewModel = this.getView().getModel("viewModel");
+      if (!oViewModel) {
+        oViewModel = new JSONModel({ pendingCount: 0, pendingCount2: 0 });
+        this.getView().setModel(oViewModel, "viewModel");
+      }
+
+      // 첫 번째 read (대기)
       oModel.read("/zcap_stock_orderSet", {
         filters: aFilters,
         success: (oData) => {
-          const pendingCount = oData.results.length; // "대기" 상태의 항목 개수 계산
-          console.log("성공", oData);
+          oViewModel.setProperty("/pendingCount", oData.results.length);
+        },
+        error: (oError) => {
+          MessageBox.error("데이터를 불러오는 중 오류가 발생했습니다.");
+          console.error("Failed to load data:", oError);
+        }
+      });
 
-          // 모델 생성 및 바인딩
-          const oViewModel = new JSONModel({ pendingCount });
-          this.getView().setModel(oViewModel, "viewModel");
-          console.log("Pending Count:", pendingCount);
+      // 두 번째 read (승인)
+      oModel.read("/zcap_stock_orderSet", {
+        filters: bFilters,
+        success: (oData) => {
+          oViewModel.setProperty("/pendingCount2", oData.results.length);
         },
         error: (oError) => {
           MessageBox.error("데이터를 불러오는 중 오류가 발생했습니다.");

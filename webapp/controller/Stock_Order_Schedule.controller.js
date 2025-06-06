@@ -16,8 +16,9 @@ sap.ui.define([
             // 기존 onInit의 필터 적용 로직
             var sUserId = sessionStorage.getItem("username").padEnd(10, ' ');
             var bFilters = [
-                new sap.ui.model.Filter("OrderOwner", sap.ui.model.FilterOperator.Contains, sUserId)
             ];
+            bFilters.push(new sap.ui.model.Filter("OrderOwner", sap.ui.model.FilterOperator.Contains, sUserId))
+            bFilters.push(new sap.ui.model.Filter("OrderStatus", sap.ui.model.FilterOperator.Contains, "승인".padEnd(10, ' ')) )
             var oTable = this.byId("orderHistoryTableSCH"); //  ID 수정
 
             setTimeout(function () {
@@ -55,12 +56,6 @@ sap.ui.define([
                 }));
             }
 
-            // 주문자 필터
-            const sOrderOwner = this.byId("orderOwnerFilterSCH").getValue().padEnd(10, ' '); // ✔ ID 수정
-            if (sOrderOwner) {
-                aFilters.push(new sap.ui.model.Filter("OrderOwner", sap.ui.model.FilterOperator.Contains, sOrderOwner));
-            }
-
             // 수량 필터
             const sMinQuantity = this.byId("quantityMinFilterSCH").getValue(); // ✔ ID 수정
             const sMaxQuantity = this.byId("quantityMaxFilterSCH").getValue(); // ✔ ID 수정
@@ -77,6 +72,7 @@ sap.ui.define([
             if (sStatus) {
                 aFilters.push(new sap.ui.model.Filter("OrderStatus", sap.ui.model.FilterOperator.Contains, sStatus));
             }
+            aFilters.push(new sap.ui.model.Filter("OrderOwner", sap.ui.model.FilterOperator.Contains, sUserId));
 
             // 정렬 항상 유지
             oBinding.filter(aFilters);
