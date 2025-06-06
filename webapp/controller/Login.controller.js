@@ -43,6 +43,7 @@ sap.ui.define([
                             // Launchpad 화면으로 이동
                             const oRouter = this.getOwnerComponent().getRouter();
                             oRouter.navTo("RouteLaunchpad");
+                            console.log("로그인 성공:", oUser);
                         } else {
                             // 비밀번호가 틀린 경우
                             MessageToast.show("비밀번호가 틀렸습니다.");

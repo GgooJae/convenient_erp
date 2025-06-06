@@ -6,6 +6,30 @@ sap.ui.define([
     "use strict";
 
     return Controller.extend("convenienterp.controller.Stock_Order_History", {
+        onInit: function () {
+            // 라우터에서 현재 View의 route 이름을 정확히 입력해야 합니다.
+            var oRouter = this.getOwnerComponent().getRouter();
+            oRouter.getRoute("RouteStock_Order_History").attachPatternMatched(this._onRouteMatched, this);
+        },
+
+        _onRouteMatched: function () {
+            // 기존 onInit의 필터 적용 로직
+            var sUserId = sessionStorage.getItem("username").padEnd(10, ' ');
+            var bFilters = [
+                new sap.ui.model.Filter("OrderOwner", sap.ui.model.FilterOperator.Contains, sUserId)
+            ];
+            var oTable = this.byId("orderHistoryTable");
+
+            setTimeout(function() {
+                var oBinding = oTable.getBinding("rows");
+                if (oBinding) {
+                    oBinding.filter(bFilters);
+                    console.log("Filters applied:", bFilters);
+                } else {
+                    console.warn("rows 바인딩이 아직 준비되지 않았습니다.");
+                }
+            }, 300);
+        },
         onApplyFilter: function () {
             const oTable = this.byId("orderHistoryTable");
             const oBinding = oTable.getBinding("rows");
