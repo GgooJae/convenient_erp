@@ -302,23 +302,61 @@ sap.ui.define([
                 };
 
                 // 채팅 전송 함수
-                function sendChat() {
+                async function sendChat() {
                     var input = document.getElementById("aiChatInput");
                     var body = document.getElementById("aiChatBody");
                     var msg = input.value.trim();
-                    if (msg) {
-                        // 안내 메시지 있으면 지우기
-                        var guide = body.querySelector("div[style*='color:#888']");
-                        if (guide) guide.remove();
-                        // 채팅 메시지 추가
-                        var msgDiv = document.createElement("div");
-                        msgDiv.className = "aiChatMsgUser";
-                        msgDiv.textContent = msg;
-                        body.appendChild(msgDiv);
+                    if (!msg) return;
+
+                    // 안내 메시지 있으면 지우기
+                    var guide = body.querySelector("div[style*='color:#888']");
+                    if (guide) guide.remove();
+
+                    // 사용자 메시지 출력
+                    var userMsg = document.createElement("div");
+                    userMsg.className = "aiChatMsgUser";
+                    userMsg.textContent = msg;
+                    body.appendChild(userMsg);
+                    body.scrollTop = body.scrollHeight;
+                    input.value = "";
+
+                    // 로딩 메시지 출력
+                    var loadingMsg = document.createElement("div");
+                    loadingMsg.className = "aiChatMsgBot";
+                    loadingMsg.textContent = "GPT 응답 중...";
+                    body.appendChild(loadingMsg);
+                    body.scrollTop = body.scrollHeight;
+
+                    try {
+                        // 프록시 서버로 요청 전송
+                        const response = await fetch("http://localhost:3000/chat", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                messages: [{ role: "user", content: msg }]
+                            })
+                        });
+
+                        const data = await response.json();
+                        loadingMsg.remove();
+
+                        // GPT 응답 출력
+                        var botMsg = document.createElement("div");
+                        botMsg.className = "aiChatMsgBot";
+                        botMsg.textContent = data?.choices?.[0]?.message?.content || "응답을 가져오지 못했습니다.";
+                        body.appendChild(botMsg);
                         body.scrollTop = body.scrollHeight;
-                        input.value = "";
+                    } catch (err) {
+                        loadingMsg.remove();
+                        var errMsg = document.createElement("div");
+                        errMsg.className = "aiChatMsgBot";
+                        errMsg.textContent = "오류 발생: " + err.message;
+                        body.appendChild(errMsg);
                     }
                 }
+
 
                 // 전송 버튼 클릭
                 document.getElementById("aiChatSendBtn").onclick = sendChat;
@@ -328,6 +366,7 @@ sap.ui.define([
                 };
             }
         },
+
 
         // 플로팅 버튼 클릭 핸들러
         onFloatingFabPress: function () {
