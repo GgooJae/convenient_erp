@@ -267,6 +267,11 @@ sap.ui.define([
                     bellDom.style.position = '';
                 }
             };
+            var sHash = window.location.hash || "";
+            if (sHash.includes("RouteLogin_2") || sHash.includes("RouteLogin")) {
+                // 로그인 화면이면 AI 버튼 생성/표시하지 않음
+                return;
+            }
             // 플로팅 버튼 추가
             if (!document.getElementById("floatingFab")) {
                 var btn = document.createElement("button");
