@@ -228,6 +228,12 @@ sap.ui.define([
 
             MessageToast.show("로그아웃되었습니다.");
 
+            // AI 버튼/채팅창 DOM 제거
+            var fab = document.getElementById("floatingFab");
+            if (fab) fab.remove();
+            var chatBox = document.getElementById("aiChatBox");
+            if (chatBox) chatBox.remove();
+
             // 로그인 화면으로 이동
             var oRouter = this.getOwnerComponent().getRouter();
             if (oRouter) {
