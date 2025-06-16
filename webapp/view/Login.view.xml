@@ -11,7 +11,6 @@
                 <Input id="username" placeholder="사용자 이름" width="100%" />
                 <Input id="password" placeholder="비밀번호" type="Password" width="100%" />
                 <Button text="로그인" press="onLogin" width="100%" type="Emphasized" />
-                <Button text="회원가입" press="onOpenRegisterDialog" width="100%" type="Transparent" />
             </VBox>
         </content>
     </Page>

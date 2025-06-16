@@ -39,10 +39,6 @@
                                         press="onPressCheckInventory"
                                         id="inventoryTile">
                                         <TileContent>
-                                            <NumericContent
-                                                value="0"
-                                                indicator="Up"
-                                                valueColor="Good" />
                                         </TileContent>
                                     </GenericTile>
                                 </Panel>
@@ -63,10 +59,7 @@
                                         press="onPressFactoryOrder"
                                         id="factoryOrderTile">
                                         <TileContent>
-                                            <NumericContent
-                                                value="{viewModel>/pendingCount}"
-                                                indicator="Up"
-                                                valueColor="Good" />
+                                            
                                         </TileContent>
                                     </GenericTile>
                                 </Panel>
@@ -76,10 +69,7 @@
                                         press="onPressDelivery"
                                         id="deliveryTile">
                                         <TileContent>
-                                            <NumericContent
-                                                value="0"
-                                                indicator="Up"
-                                                valueColor="Good" />
+                                            
                                         </TileContent>
                                     </GenericTile>
                                 </Panel>
@@ -107,10 +97,7 @@
                                         press="onPressExpirationDate"
                                         id="expirationDateTile">
                                         <TileContent>
-                                            <NumericContent
-                                                value="10"
-                                                indicator="Up"
-                                                valueColor="Good" />
+                                            
                                         </TileContent>
                                     </GenericTile>
                                 </Panel>
@@ -124,10 +111,7 @@
                                     press="onPressFactorySchedule"
                                     id="factoryScheduleTile">
                                     <TileContent>
-                                        <NumericContent
-                                            value="10"
-                                            indicator="Up"
-                                            valueColor="Good" />
+                                        
                                     </TileContent>
                                 </GenericTile>
                             </Panel>
@@ -137,10 +121,7 @@
                                     press="onPressManagerDeliverySchedule"
                                     id="managerDeliveryScheduleTile">
                                     <TileContent>
-                                        <NumericContent
-                                            value="10"
-                                            indicator="Up"
-                                            valueColor="Good" />
+                                        
                                     </TileContent>
                                 </GenericTile>
                             </Panel>
@@ -155,10 +136,7 @@
                                         press="onPressSalesDetail"
                                         id="salesDetailTile">
                                         <TileContent>
-                                            <NumericContent
-                                                value="10"
-                                                indicator="Up"
-                                                valueColor="Good" />
+                                            
                                         </TileContent>
                                     </GenericTile>
                                 </Panel>
@@ -168,10 +146,7 @@
                                         press="onPressPromotion"
                                         id="promotionTile">
                                         <TileContent>
-                                            <NumericContent
-                                                value="10"
-                                                indicator="Up"
-                                                valueColor="Good" />
+                                            
                                         </TileContent>
                                     </GenericTile>
                                 </Panel>
